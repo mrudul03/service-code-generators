@@ -25,7 +25,6 @@ public class PropertiesTemplate {
 	private String dbUrl;
 	private String dbusername;
 	private String dbpassword;
-	private String dbDriver;
 	private String schemaName;
 	
 	private String applicationTemplate;
@@ -44,7 +43,6 @@ public class PropertiesTemplate {
 		this.dbUrl = configurations.getDbUrl();
 		this.dbusername = configurations.getDbusername();
 		this.dbpassword = configurations.getDbpassword();
-		this.dbDriver = configurations.getDbDriver();
 		this.schemaName = configurations.getSchemaName();
 		this.applicationTemplate = "applicationproperties.template";
 		//this.bootstrapTemplate = "bootstrapYaml.template";

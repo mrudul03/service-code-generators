@@ -68,13 +68,16 @@ public class EntityTemplate extends BaseClass {
 			final List<DomainModel> domainModels,
 			final DomainModel domainModel,
 			final GeneratorMetaData metaData) {
-	
-		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
-			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-		}
-		else {
-			this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-		}
+		
+		//this.packageName = metaData.getBasePackageName()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+		this.packageName = metaData.getBasePackageName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+		
+//		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
+//			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+//		}
+//		else {
+//			this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+//		}
 		this.classfields = this.createClassFields(domainModel, metaData);
 		this.className = domainModel.getName()+"Entity";
 		this.classNameVariable = this.getClassNameVariable(domainModel.getName())+"Entity";

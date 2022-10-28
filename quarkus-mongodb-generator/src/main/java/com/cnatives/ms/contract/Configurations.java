@@ -21,21 +21,9 @@ public class Configurations {
 	private String databaseType;
 	private String contextPath;
 	private String serviceBaseName;
+	private String basePackage;
 	
-	public String getDbDriver() {
-		if(null != this.getDatabaseType() &&
-				this.getDatabaseType().equalsIgnoreCase("mysql")) {	
-			return MYSQL_DB_DRIVER;
-		}
-		else if(null != this.getDatabaseType() &&
-				(this.getDatabaseType().equalsIgnoreCase("postgres") ||
-				this.getDatabaseType().equalsIgnoreCase("postgressql"))) {
-			return POSTGRES_DB_DRIVER;
-		}
-		else {
-			return "";
-		}
-	}
+	
 	
 	public void initialize() {
 		

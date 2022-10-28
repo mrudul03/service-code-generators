@@ -24,7 +24,7 @@ public class ApplicationTemplate extends BaseClass{
 	}
 	
 	private void updateClassDetails(GeneratorMetaData metaData) {
-		this.packageName = metaData.getBasePackage()+"."+metaData.getDomainName().toLowerCase();
+		this.packageName = metaData.getBasePackageName()+"."+metaData.getDomainName().toLowerCase();
 		this.className = metaData.getDomainName()+APPLICATION;
 	}
 	

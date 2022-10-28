@@ -55,19 +55,19 @@ public class ControllerTemplate extends BaseClass {
 	}
 	
 	private void updateClassImports(GeneratorMetaData metaData, DomainModel domainModel) {
-		this.domainImports = metaData.getBasePackage() +"."+metaData.getServiceBaseName()+ "." + domainModel.getDomainName().toLowerCase()+ "."+DOMAIN+".*";
-		this.contractImports = metaData.getBasePackage() +"."+metaData.getServiceBaseName()+ "." + domainModel.getDomainName().toLowerCase()+ "."+CONTRACT+".*";
+		this.domainImports = metaData.getBasePackageName() + "." + domainModel.getDomainName().toLowerCase()+ "."+DOMAIN+".*";
+		this.contractImports = metaData.getBasePackageName() + "." + domainModel.getDomainName().toLowerCase()+ "."+CONTRACT+".*";
 	}
 	
 	private void updateClassDetails(GeneratorMetaData metaData, DomainModel domainModel) {
-		//this.packageName = metaData.getBasePackage() + "." + metaData.getDomainName().toLowerCase()+ "."+CONTROLLER.toLowerCase();
-		//this.packageName = metaData.getBasePackage() +"."+metaData.getServiceBaseName()+ "." + domainModel.getDomainName().toLowerCase()+ "."+CONTROLLER.toLowerCase();
-		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
-			this.packageName = metaData.getBasePackage() + "." + domainModel.getDomainName().toLowerCase()+ "."+CONTROLLER.toLowerCase();
-		}
-		else {
-			this.packageName = metaData.getBasePackage() +"."+metaData.getServiceBaseName()+ "." + domainModel.getDomainName().toLowerCase()+ "."+CONTROLLER.toLowerCase();
-		}
+		
+		this.packageName = metaData.getBasePackageName() +"." + domainModel.getDomainName().toLowerCase()+ "."+CONTROLLER.toLowerCase();
+//		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
+//			this.packageName = metaData.getBasePackage() + "." + domainModel.getDomainName().toLowerCase()+ "."+CONTROLLER.toLowerCase();
+//		}
+//		else {
+//			this.packageName = metaData.getBasePackage() +"."+metaData.getServiceBaseName()+ "." + domainModel.getDomainName().toLowerCase()+ "."+CONTROLLER.toLowerCase();
+//		}
 		
 		this.serviceName = domainModel.getDomainName() + SERVICE;
 		this.serviceVariableName = this.createVariable(this.serviceName);

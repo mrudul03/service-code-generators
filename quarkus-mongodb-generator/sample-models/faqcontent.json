@@ -1,0 +1,137 @@
+{
+    "configurations": {
+        "servicePort": "10062",
+        "serviceName": "fbm-content-service",
+        "schemaName": "fbmcontentdb",
+        "contextPath": "content",
+        "databaseType": "mongo",
+        "basePackage": "com.service.content"
+    },
+    "domains": [
+        {
+            "name": "FaqBannerContent",
+            "entitytype": "Aggregate",
+            "domainName": "FaqBannerContent",
+            "fields": [
+                { "name": "bannerImage", "datatype": "string", "maxlength": "255", "required": false },
+                { "name": "headerText", "datatype": "string", "maxlength": "255", "required": false },
+                { "name": "metaTitle", "datatype": "string", "maxlength": "160", "required": false },
+                { "name": "metaKeywords", "datatype": "string", "maxlength": "1024", "required": false },
+                { "name": "metaDescription", "datatype": "string", "maxlength": "2048", "required": false },
+                { "name": "insertedDate", "datatype": "date", "maxlength": "", "required": true }
+                          
+            ],
+            "operations": [
+                {
+                    "method": "GET",
+                    "name": "getFaqBannerContent",
+                    "description": "Returns FAQ banner content",
+                    "path": "/faq/faqcontent",
+                    "pathparams":[ ],
+                    "response": "FaqBannerContentResponse",
+                    "responses": {
+                        "200": {"type": "FaqBannerContentResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                }                
+            ]
+        },
+        {
+            "name": "FaqCategoryMaster",
+            "entitytype": "Aggregate",
+            "domainName": "FaqCategoryMaster",
+            "fields": [
+                { "name": "categoryName", "datatype": "string", "maxlength": "100", "required": false },
+                { "name": "iconImage", "datatype": "string", "maxlength": "255", "required": false },
+                { "name": "insertedDate", "datatype": "date", "maxlength": "", "required": true }
+                          
+            ],
+            "operations": [
+                {
+                    "method": "GET",
+                    "name": "getFaqBannerContent",
+                    "description": "Returns FAQ Catgeory content",
+                    "path": "/faq/faqcategory",
+                    "pathparams":[ ],
+                    "response": "FaqCategoryMasterResponse",
+                    "responses": {
+                        "200": {"type": "FaqCategoryMasterResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                }                
+            ]
+        },
+        {
+            "name": "FaqQuestionAnswer",
+            "entitytype": "Aggregate",
+            "domainName": "FaqQuestionAnswer",
+            "fields": [
+                { "name": "categoryId", "datatype": "integer", "maxlength": "", "required": true },
+                { "name": "subCategoryId", "datatype": "integer", "maxlength": "", "required": false },
+                { "name": "subSubCategoryId", "datatype": "integer", "maxlength": "", "required": false },
+                { "name": "question", "datatype": "string", "maxlength": "3000", "required": false },
+                { "name": "answer", "datatype": "string", "maxlength": "3000", "required": false },
+                { "name": "insertedDate", "datatype": "date", "maxlength": "", "required": true }
+                          
+            ],
+            "operations": [
+                {
+                    "method": "GET",
+                    "name": "getFaqQuestionAnswer",
+                    "description": "Returns FAQ question and answer content",
+                    "path": "/faq/faqcategory",
+                    "pathparams":[ ],
+                    "response": "FaqQuestionAnswerResponse",
+                    "responses": {
+                        "200": {"type": "FaqQuestionAnswerResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                }                
+            ]
+        }
+    ],
+    "domainforms": [
+        {
+            "name": "FaqBannerContentResponse",
+            "entitytype": "Aggregate",
+            "domainName": "FaqBannerContent",
+            "fields":[
+                { "name": "bannerImage", "datatype": "string", "maxlength": "255", "required": false },
+                { "name": "headerText", "datatype": "string", "maxlength": "255", "required": false },
+                { "name": "metaTitle", "datatype": "string", "maxlength": "160", "required": false },
+                { "name": "metaKeywords", "datatype": "string", "maxlength": "1024", "required": false },
+                { "name": "metaDescription", "datatype": "string", "maxlength": "2048", "required": false },
+                { "name": "insertedDate", "datatype": "date", "maxlength": "", "required": true }
+            ]
+        },
+        {
+            "name": "FaqCategoryMasterResponse",
+            "entitytype": "Aggregate",
+            "domainName": "FaqCategoryMaster",
+            "fields":[
+                { "name": "categoryName", "datatype": "string", "maxlength": "100", "required": false },
+                { "name": "iconImage", "datatype": "string", "maxlength": "255", "required": false },
+                { "name": "insertedDate", "datatype": "date", "maxlength": "", "required": true }
+
+            ]
+        },
+        {
+            "name": "FaqQuestionAnswerResponse",
+            "domainName": "FaqQuestionAnswer",
+            "entitytype": "Aggregate",
+            "fields":[
+                { "name": "categoryId", "datatype": "integer", "maxlength": "", "required": true },
+                { "name": "subCategoryId", "datatype": "integer", "maxlength": "", "required": false },
+                { "name": "subSubCategoryId", "datatype": "integer", "maxlength": "", "required": false },
+                { "name": "question", "datatype": "string", "maxlength": "3000", "required": false },
+                { "name": "answer", "datatype": "string", "maxlength": "3000", "required": false },
+                { "name": "insertedDate", "datatype": "date", "maxlength": "", "required": true }
+
+            ]
+        }
+        
+    ]
+}

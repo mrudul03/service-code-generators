@@ -54,25 +54,28 @@ public class ServiceTemplate extends BaseClass{
 			final GeneratorMetaData metaData) {
 		
 		this.className = domainModel.getName()+SERVICE;
-		//this.packageName = metaData.getBasePackage()+"."+metaData.getDomainName().toLowerCase()+"."+DOMAIN;
-		//this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
-			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-		}
-		else {
-			this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-		}
+		
+//		this.packageName = metaData.getBasePackageName()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+		this.packageName = metaData.getBasePackageName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+//		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
+//			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+//		}
+//		else {
+//			this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+//		}
 		
 		this.repository = domainModel.getName()+REPOSITORY;
 		this.repositoryVariable = createVariable(this.repository);
 		
-		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
-			this.contractImport = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+".contract.*";
-		}
-		else {
-			this.contractImport = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+metaData.getDomainName().toLowerCase()+".contract.*";
-		}
-		this.exceptionImport = metaData.getBasePackage()+"."+metaData.getServiceBaseName().toLowerCase()+".exception.*";
+		this.contractImport = metaData.getBasePackageName()+"."+metaData.getDomainName().toLowerCase()+".contract.*";
+		
+//		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
+//			this.contractImport = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+".contract.*";
+//		}
+//		else {
+//			this.contractImport = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+metaData.getDomainName().toLowerCase()+".contract.*";
+//		}
+		this.exceptionImport = metaData.getBasePackageName()+".exception.*";
 		
 		List<DomainModelOperation> domainOperations = domainModel.getOperations();
 		for(DomainModelOperation dOperation:domainOperations) {

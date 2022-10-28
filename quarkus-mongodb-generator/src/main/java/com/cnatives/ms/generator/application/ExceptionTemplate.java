@@ -22,7 +22,7 @@ public class ExceptionTemplate extends BaseClass{
 	}
 	
 	private void updateClassDetails(GeneratorMetaData metaData) {
-		this.packageName = metaData.getBasePackage()+"."+metaData.getDomainName().toLowerCase()+"."+EXCEPTION;
+		this.packageName = metaData.getBasePackageName()+"."+metaData.getDomainName().toLowerCase()+"."+EXCEPTION;
 		this.className = "";
 		
 		this.templateNames.put("InvalidInputExceptionHandler", "invalidinputexceptionhandler.template");

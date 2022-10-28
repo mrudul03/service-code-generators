@@ -69,9 +69,9 @@ public class DomainTemplate extends BaseClass {
 	
 	private DomainTemplate() {}
 	
-	private void updateTemplateDetails(final GeneratorMetaData metaData, DomainModel domainModel) {
+	private void updateTemplateDetails(final GeneratorMetaData metaData, 
+			final DomainModel domainModel) {
 		this.templateName = DOMAIN_TEMPLATE;
-		//this.codeGenDirPath = metaData.getCodeGenDirPath()+DOMAIN+"/";
 		this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModel.getDomainName())+DOMAIN+"/";
 		this.fileExtension = FILE_EXTENSION;
 		this.bindingName = DOMAIN;
@@ -81,14 +81,14 @@ public class DomainTemplate extends BaseClass {
 			final List<DomainModel> domainModels,
 			final DomainModel domainModel,
 			final GeneratorMetaData metaData) {
-	
-		//this.packageName = metaData.getBasePackage()+"."+metaData.getDomainName().toLowerCase()+"."+DOMAIN;
-		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
-			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-		}
-		else {
-			this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-		}
+		
+		this.packageName = metaData.getBasePackageName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+//		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
+//			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+//		}
+//		else {
+//			this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+//		}
 		this.classfields = this.createClassFields(domainModel, metaData);
 		this.className = domainModel.getName();
 		this.classNameVariable = this.getClassNameVariable(domainModel.getName());
@@ -101,42 +101,12 @@ public class DomainTemplate extends BaseClass {
 		this.idField = this.getIdField(metaData.getPkClazzName());
 		this.idFieldName = this.getClassNameVariable(domainModel.getName())+"Id";
 		if(null != this.idField) {
-			//this.idFieldType = this.idField.getDatatypeClassName();
 			this.idFieldType = "ObjectId";
 		}
-		this.contractImport = "import "+metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+"contract.*";
+		//this.contractImport = "import "+metaData.getBasePackageName()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+"contract.*";
+		this.contractImport = "import "+metaData.getBasePackageName()+"."+domainModel.getDomainName().toLowerCase()+"."+"contract.*";
 		this.entityName = domainModel.getName()+"Entity";
-		
-//		if(metaData.getDatabaseType().equalsIgnoreCase("mongo") ||
-//				metaData.getDatabaseType().equalsIgnoreCase("mongodb")) {
-//			
-//			entityAnnotation = "@MongoEntity(collection=\""+domainModel.getName()+"\")";
-//		}
-//		else {
-//			entityAnnotation = "@Table(name=\""+domainModel.getName()+"\")";
-//		}
 	}
-	
-//	private String generateTableName(String name) {
-//		String[] words = name.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
-//		StringBuilder sbTableName = new StringBuilder();
-//		for(String word : words) {
-//			sbTableName.append(word.toLowerCase()+"_");
-//		}
-//		String tableName = sbTableName.toString().substring(0, sbTableName.length()-1);
-//	    return tableName;
-//	}
-	
-//	private String generateIdColumnName(String name) {
-//		String[] words = name.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
-//		StringBuilder sbIdColumnName = new StringBuilder();
-//		for(String word : words) {
-//			sbIdColumnName.append(word.toLowerCase()+"_");
-//		}
-//		String idColumnName = sbIdColumnName.toString().substring(0, sbIdColumnName.length()-1);
-//		idColumnName = idColumnName+"_id";
-//	    return idColumnName;
-//	}
 	
 	private List<ClassField> createClassFields(final DomainModel domainModel, GeneratorMetaData metaData){
 		List<ClassField> classFields = new ArrayList<>();

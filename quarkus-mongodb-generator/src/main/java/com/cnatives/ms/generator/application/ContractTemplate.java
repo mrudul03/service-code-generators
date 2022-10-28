@@ -46,13 +46,14 @@ public class ContractTemplate extends BaseClass {
 	
 	private void updateClassDetails(GeneratorMetaData metaData, DomainModelForm domainModelform) {
 		if(null == this.packageName) {
-			//this.packageName = metaData.getBasePackage()+"."+metaData.getDomainName().toLowerCase()+"."+CONTRACT;
-			if(metaData.getServiceBaseName().equalsIgnoreCase(domainModelform.getDomainName())) {
-				this.packageName = metaData.getBasePackage()+"."+domainModelform.getDomainName().toLowerCase()+"."+CONTRACT;
-			}
-			else {
-				this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModelform.getDomainName().toLowerCase()+"."+CONTRACT;
-			}
+			
+			this.packageName = metaData.getBasePackageName()+"."+domainModelform.getDomainName().toLowerCase()+"."+CONTRACT;
+//			if(metaData.getServiceBaseName().equalsIgnoreCase(domainModelform.getDomainName())) {
+//				this.packageName = metaData.getBasePackage()+"."+domainModelform.getDomainName().toLowerCase()+"."+CONTRACT;
+//			}
+//			else {
+//				this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModelform.getDomainName().toLowerCase()+"."+CONTRACT;
+//			}
 		}
 		
 		this.className = domainModelform.getName();

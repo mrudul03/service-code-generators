@@ -43,14 +43,14 @@ public class RepositoryTemplate extends BaseClass {
 			final DomainModel domainModel,
 			final GeneratorMetaData metaData) {
 		
-		//this.packageName = metaData.getBasePackage()+"."+metaData.getDomainName().toLowerCase()+"."+DOMAIN;
-		//this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
-			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-		}
-		else {
-			this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-		}
+		//this.packageName = metaData.getBasePackageName()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+		this.packageName = metaData.getBasePackageName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+//		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
+//			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+//		}
+//		else {
+//			this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+//		}
 		
 		this.className = domainModel.getName()+REPOSITORY;
 		this.domainClassName = domainModel.getName();

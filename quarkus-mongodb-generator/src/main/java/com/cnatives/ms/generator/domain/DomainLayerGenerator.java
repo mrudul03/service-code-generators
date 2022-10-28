@@ -161,13 +161,16 @@ public class DomainLayerGenerator {
 						.filter(dm -> dm.getClassName().equalsIgnoreCase(modelDataType))
 						.findFirst()
 						.orElse(null);
+					
 					log.info("Custom data type::"+modelDataType);
-					log.info("Got Domain template Match for creating references::"+matchedDomainTemlate.getClassName());
-					Reference reference = this.createReference(matchedDomainTemlate, classField);
-					log.info("Reference targetColumnName::"+reference.getTargetColumnName());
-					log.info("Reference ColumnName::"+reference.getColumnName());
-					log.info("Reference Relation::"+reference.getRelation());
-					classField.setReference(reference);
+					if(null != matchedDomainTemlate) {
+						log.info("Got Domain template Match for creating references::"+matchedDomainTemlate.getClassName());
+						Reference reference = this.createReference(matchedDomainTemlate, classField);
+						log.info("Reference targetColumnName::"+reference.getTargetColumnName());
+						log.info("Reference ColumnName::"+reference.getColumnName());
+						log.info("Reference Relation::"+reference.getRelation());
+						classField.setReference(reference);
+					}
 				}
 			}
 		}
