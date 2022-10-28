@@ -1,0 +1,35 @@
+
+Spring Data JDBC
+https://lumberjackdev.com/spring-data-jdbc
+https://github.com/lumberjackdev/getting-started-spring-data-jdbc
+
+Spring Data JDBC with Builder pattern
+https://stackoverflow.com/questions/8111461/how-can-you-use-builder-pattern-for-entities-with-jpa
+
+Lombok Builder examples
+https://javabydeveloper.com/lombok-builder-examples/
+
+Jib Maven Plugin to containerise a java application
+https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin
+
+Spring-Data-JDBC - examples
+https://github.com/javabydeveloper/spring-boot/tree/master/spring-boot-data-jhttps://kislayverma.com/organizations/a-case-against-platform-teams/dbc-example
+
+
+*** Tactical Domain-Driven Design
+https://vaadin.com/learn/tutorials/ddd
+https://vaadin.com/learn/tutorials/ddd/tactical_domain_driven_design
+
+Design Microservice Architectures the Right Way (Generate code)
+https://www.youtube.com/watch?v=j6ow-UemzBc&t=1s
+Linter for API validations
+API Builder - to know if API change is a breaking change (app.apibuilder.io)
+
+
+Domain-Driven Design Starter Modelling Process
+https://github.com/ddd-crew/ddd-starter-modelling-process
+
+A case against “Platform Teams”
+https://kislayverma.com/organizations/a-case-against-platform-teams/
+
+

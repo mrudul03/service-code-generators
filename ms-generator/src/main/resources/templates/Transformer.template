@@ -1,0 +1,46 @@
+package {{ transformer.packageName }};
+
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
+
+{{ transformer.imports}}
+
+
+@Component
+public class {{ transformer.className}} {
+
+	{%- for tmodel in transformer.transformModels  %}
+	
+	//ModeltoContract
+	private Function<{{ tmodel.modelName}}, {{tmodel.contractName}}> transform{{tmodel.modelName}}ToContractFn = new 
+			Function<{{ tmodel.modelName}}, {{tmodel.contractName}}>(){
+
+				@Override
+				public {{tmodel.contractName}} apply({{ tmodel.modelName}} model) {
+					{{tmodel.modelToContract}}
+				}
+		
+	};
+	
+	//ContractToModel
+	private Function<{{tmodel.contractName}}, {{tmodel.modelName}}> transform{{tmodel.contractName}}ToModelFn = new 
+			Function<{{tmodel.contractName}}, {{tmodel.modelName}}>(){
+			
+				@Override
+				public {{tmodel.modelName}} apply({{tmodel.contractName}} contract) {
+					{{tmodel.contractToModel}}
+				}
+	};
+	
+	public {{tmodel.contractName}} transform{{tmodel.modelName}}ToContract({{tmodel.modelName}} model) {
+		return this.transform{{tmodel.modelName}}ToContractFn.apply(model);
+	}
+	
+	public {{tmodel.modelName}} transform{{tmodel.contractName}}ToModel({{tmodel.contractName}} contract) {
+		return this.transform{{tmodel.contractName}}ToModelFn.apply(contract);
+	}
+	{%- endfor %}
+}

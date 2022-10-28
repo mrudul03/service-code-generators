@@ -1,0 +1,10 @@
+package {{ repository.packageName }};
+
+import javax.enterprise.context.ApplicationScoped;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.quarkus.mongodb.panache.PanacheMongoRepository;
+
+@ApplicationScoped
+public class {{ repository.className }} implements {{repository.repositoryInterfaceName}}<{{ repository.domainClassName}}>{
+
+}

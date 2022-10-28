@@ -1,0 +1,6 @@
+package {{ generateId.packageName }};
+
+public interface GeneratedStringId {
+	void setId(String id);
+	String getId();
+}

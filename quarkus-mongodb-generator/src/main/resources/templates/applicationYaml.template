@@ -1,0 +1,12 @@
+# Configuration file
+# key = value
+
+quarkus:
+  datasource:
+    url: {{ configuration.dbUrl}}
+    driver: com.mysql.cj.jdbc.Driver
+    username: {{ configuration.dbusername}}
+    password: {{ configuration.dbpassword}}
+    
+  mongodb:
+    connection-string: {{ configuration.dbUrl}}

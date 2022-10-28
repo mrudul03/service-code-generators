@@ -1,0 +1,103 @@
+package {{ domain.packageName }};
+
+import org.bson.types.ObjectId;
+import lombok.Setter;
+import lombok.Getter;
+import java.util.List;
+import java.util.ArrayList;
+import lombok.extern.slf4j.Slf4j;
+{{ domain.contractImport }};
+{% if domain.dateDeclared is defined %}import java.sql.Timestamp;
+import java.time.LocalDate;{% endif %}
+{% if domain.setDeclared is defined %}import java.util.Set;
+import java.util.HashSet;
+{% endif %}
+
+@Slf4j
+public class {{ domain.className }} {
+    
+    {% if domain.idField is defined %}
+    @Getter
+    private {{domain.idFieldType}} {{ domain.idFieldName}};
+    {% endif %}
+    
+    {%- for field in domain.classfields  %}
+    @Getter
+    private {{field.datatypeClassName}} {{ field.name }};  
+    {%- endfor %}
+    
+    protected {{ domain.className }}(){}
+    
+    public static {{ domain.className }}Builder builder() {
+        return new {{ domain.className }}Builder();
+    }
+    
+    public static class {{ domain.className }}Builder {
+    
+        {%- for field in domain.classfields  %}
+        
+        private {{field.datatypeClassName}} {{ field.name }};
+        public {{ domain.className }}Builder with{{ field.capitalizedName}}(final {{field.datatypeClassName}} {{ field.name }}) {
+            this.{{ field.name }} = {{ field.name }};
+            return this;
+        }
+        {%- endfor %}
+        
+        {%- for requestName in domain.postRequestNames  %}
+        public {{ domain.className }}Builder buildFrom({{ requestName }} request) {
+        	// TODO set all domain values
+        	
+        	return this;
+        }
+        {%- endfor %}
+        
+        
+        public {{ domain.className }}Builder buildFrom({{ domain.entityName }} entity) {
+        	// TODO set all domain values
+        	{%- for field in domain.classfields  %}
+        	this.with{{ field.capitalizedName}}(entity.get{{ field.capitalizedName}}());
+        	{%- endfor %}
+        	return this;
+        }
+        
+        public {{ domain.className }} build() {
+            {{ domain.className }} {{ domain.classNameVariable}} = new {{ domain.className }}();
+            {%- for field in domain.classfields  %}
+            {{ domain.classNameVariable}}.{{ field.name }} = this.{{ field.name }};
+            {%- endfor %}
+            return {{ domain.classNameVariable}};
+        }
+        
+        {% if domain.idField is defined %}
+        public {{ domain.className }} build({{domain.idFieldType}} {{ domain.idFieldName}}) {
+            {{ domain.className }} {{ domain.classNameVariable}} = this.build();
+            {{ domain.classNameVariable}}.{{ domain.idFieldName}} = {{ domain.idFieldName}};
+            return {{ domain.classNameVariable}};
+        }
+        {% endif %}
+
+        private List<String> validate(){
+            List<String> errors = new ArrayList<>();
+            // validate common fields
+            
+            log.info("Validated with errors count::"+errors.size());
+            return errors;
+        }
+        
+        private boolean isValidField(String field) {
+            boolean bValid = true;
+            if(null == field || field.isBlank() || field.isEmpty()) {
+                bValid = false;
+            }
+            return bValid;
+        }
+        
+        private String formatErrorsAsString(List<String> errors) {
+            StringBuilder sbErrors = new StringBuilder();
+            errors.forEach(sbErrors::append);
+            return sbErrors.toString();
+        }
+        
+   }
+   
+}

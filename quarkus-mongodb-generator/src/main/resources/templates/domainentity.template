@@ -1,0 +1,32 @@
+package {{ domainentity.packageName }};
+
+import org.bson.types.ObjectId;
+import lombok.Setter;
+import lombok.Getter;
+import java.util.List;
+import java.util.ArrayList;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
+import io.quarkus.mongodb.panache.MongoEntity;
+import lombok.Data;
+{% if domainentity.dateDeclared is defined %}import java.sql.Timestamp;
+import java.time.LocalDate;{% endif %}
+{% if domainentity.setDeclared is defined %}import java.util.Set;
+import java.util.HashSet;
+{% endif %}
+
+@Data
+@Slf4j
+@MongoEntity(collection="{{ domainentity.className }}")
+public class {{ domainentity.className }} {
+
+	public {{ domainentity.className }}(){}
+    
+    {% if domainentity.idField is defined %}
+    private {{domainentity.idFieldType}} {{ domainentity.idFieldName}};
+    {% endif %}
+    
+    {%- for field in domainentity.classfields  %}
+    private {{field.datatypeClassName}} {{ field.name }};  
+    {%- endfor %}
+}

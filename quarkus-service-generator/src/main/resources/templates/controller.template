@@ -1,0 +1,37 @@
+package {{ controller.packageName }};
+
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import lombok.extern.slf4j.Slf4j;
+import {{ controller.domainImports }};
+import {{ controller.contractImports }};
+
+@Path("/api")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+@Slf4j
+public class {{ controller.className }} {
+	
+	@Inject
+	private {{controller.serviceName}} {{controller.serviceVariableName}};
+	
+	{%- for operation in controller.operations  %}
+	
+	@{{ operation.mapping}}
+	@Path("{{operation.path}}")
+	public {{operation.response}} {{operation.operationName}}({{operation.parametersAsString}}) {
+		
+		{{operation.returnresponse}};
+	}
+	
+	{%- endfor %}
+	
+}

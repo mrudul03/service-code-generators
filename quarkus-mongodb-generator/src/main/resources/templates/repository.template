@@ -1,0 +1,12 @@
+package {{ repository.packageName }};
+
+import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
+import io.quarkus.mongodb.panache.PanacheMongoRepository;
+import io.quarkus.mongodb.panache.PanacheQuery;
+import io.quarkus.panache.common.Page;
+
+@ApplicationScoped
+public class {{ repository.className }} implements PanacheMongoRepository<{{ repository.domainEntityClassName}}>{
+
+}

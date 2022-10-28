@@ -1,0 +1,10 @@
+mysqlroot
+
+mysql -uroot -p
+
+create database ecomnuserdb;
+
+CREATE USER 'ecomnuserdbuser1'@'localhost' IDENTIFIED BY 'ChangeMe';
+GRANT ALL PRIVILEGES ON ecomnuserdb.*  TO 'ecomnuserdbuser1'@'localhost';
+
+use ecomnuserdb;

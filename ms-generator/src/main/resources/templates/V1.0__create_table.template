@@ -1,0 +1,8 @@
+
+{%- for dbModel in dbModels.dbModelList  %}
+create table {{dbModels.schemaName}}.{{dbModel.tableName}}
+(
+{{dbModel.columnScript}}
+);
+{%- endfor %}
+

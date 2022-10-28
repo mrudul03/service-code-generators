@@ -1,0 +1,114 @@
+package {{ domain.packageName }};
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import lombok.Setter;
+import lombok.Getter;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+{% if domain.dateDeclared is defined %}import java.sql.Timestamp;{% endif %}
+{% if domain.setDeclared is defined %}import java.util.Set;
+import java.util.HashSet;
+{% endif %}
+import java.util.List;
+import java.util.ArrayList;
+import lombok.extern.slf4j.Slf4j;
+{{ domain.contractImport }};
+import io.quarkus.mongodb.panache.common.MongoEntity;
+
+@Slf4j
+@Entity
+{{ domain.entityAnnotation }}
+public class {{ domain.className }} {
+    
+    @Getter
+    @Setter
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="{{domain.idColumnName}}", updatable= false, nullable=false)
+    private {{domain.idFieldType}} {{ domain.idFieldName}};
+    {%- for field in domain.classfields  %}
+    
+    
+    {% if field.isCustom is defined %}@OneToOne
+    @JoinColumn(name="{{field.reference.targetColumnName}}"){% endif %}
+    {% if field.columnName is defined %}@Column(name="{{field.columnName}}") {% endif %}
+    {% if field.isCollection is defined %}@OneToMany{% endif %}
+    @Getter
+    private {{field.datatypeClassName}} {{ field.name }};  
+    {%- endfor %}
+    
+    protected {{ domain.className }}(){}
+    
+    public static {{ domain.className }}Builder builder() {
+        return new {{ domain.className }}Builder();
+    }
+    
+    public static class {{ domain.className }}Builder {
+    
+        {%- for field in domain.classfields  %}
+        
+        private {{field.datatypeClassName}} {{ field.name }};
+        public {{ domain.className }}Builder with{{ field.capitalizedName}}(final {{field.datatypeClassName}} {{ field.name }}) {
+            this.{{ field.name }} = {{ field.name }};
+            return this;
+        }
+        {%- endfor %}
+        
+        {%- for requestName in domain.postRequestNames  %}
+        public {{ domain.className }}Builder buildFrom({{ requestName }} request) {
+        	// TODO set all domain values
+        	return this;
+        }
+        {%- endfor %}
+        
+        public {{ domain.className }} build() {
+            {{ domain.className }} {{ domain.classNameVariable}} = new {{ domain.className }}();
+            {%- for field in domain.classfields  %}
+            {{ domain.classNameVariable}}.{{ field.name }} = this.{{ field.name }};
+            {%- endfor %}
+            return {{ domain.classNameVariable}};
+        }
+        
+        {% if domain.idField is defined %}
+        public {{ domain.className }} build({{domain.idFieldType}} {{ domain.idFieldName}}) {
+            {{ domain.className }} {{ domain.classNameVariable}} = this.build();
+            {{ domain.classNameVariable}}.{{ domain.idFieldName}} = {{ domain.idFieldName}};
+            return {{ domain.classNameVariable}};
+        }
+        {% endif %}
+
+        private List<String> validate(){
+            List<String> errors = new ArrayList<>();
+            // validate common fields
+            
+            log.info("Validated with errors count::"+errors.size());
+            return errors;
+        }
+        
+        private boolean isValidField(String field) {
+            boolean bValid = true;
+            if(null == field || field.isBlank() || field.isEmpty()) {
+                bValid = false;
+            }
+            return bValid;
+        }
+        
+        private String formatErrorsAsString(List<String> errors) {
+            StringBuilder sbErrors = new StringBuilder();
+            errors.forEach(sbErrors::append);
+            return sbErrors.toString();
+        }
+        
+   }
+   
+}

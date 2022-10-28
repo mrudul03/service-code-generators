@@ -1,0 +1,28 @@
+package {{ config.packageName }} ;
+
+import java.util.UUID;
+
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.relational.core.mapping.event.BeforeSaveEvent;
+
+import {{ config.generatedIdPkgName}};
+
+@Configuration
+public class PersistenceConfig {
+	
+	@SuppressWarnings("rawtypes")
+	@Bean
+    public ApplicationListener<BeforeSaveEvent> idGenerator() {
+        return event -> {
+            var entity = event.getEntity();
+            if (entity instanceof GeneratedStringId) {
+            	GeneratedStringId genIdString = (GeneratedStringId)entity;
+            	if(null == genIdString.getId() || genIdString.getId().isEmpty()) {
+            		genIdString.setId(UUID.randomUUID().toString());
+            	} 
+            }
+        };
+    }
+}

@@ -1,0 +1,73 @@
+package {{ controller.packageName }};
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import lombok.extern.slf4j.Slf4j;
+
+import {{ controller.modelImport }};
+import {{ controller.contractImport }};
+
+
+@RestController
+@RequestMapping(value="{{ controller.requestMapping }}")
+@Slf4j
+public class {{ controller.className }} {
+	
+	@Autowired
+	private {{controller.serviceName}} service;
+	
+	@GetMapping("/{{ controller.pathMappingGet }}")
+	public ResponseEntity<{{controller.contractResponseName}}> get{{controller.modelName}}(
+		@PathVariable {{ controller.pkDatatype}} {{ controller.idFieldName}}){
+		
+		{{controller.modelName}} {{controller.modelVariableName}} = service.get{{controller.modelName}}({{ controller.idFieldName}});
+		{{controller.contractResponseName}} contractResponse = new {{controller.contractResponseName}}();
+		contractResponse = contractResponse.buildFrom({{controller.modelVariableName}});
+		log.info("Returning model response");
+		return ResponseEntity.ok(contractResponse);
+	}
+	
+	@PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,
+			 value="/{{controller.pathMappingPost}}")
+	public ResponseEntity<{{controller.contractResponseName}}> create{{controller.modelName}}(@RequestBody 
+			{{controller.contractName}} contract){
+		
+		{{controller.modelName}} saved{{controller.modelName}} = service.add{{controller.modelName}}(contract);
+		{{controller.contractResponseName}} savedContract = new {{controller.contractResponseName}}();
+		savedContract = savedContract.buildFrom(saved{{controller.modelName}});
+		
+		log.info("Returning added model response");
+		return ResponseEntity.ok(savedContract);
+	}
+	
+	@PutMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,
+			 value="/{{ controller.pathMappingPut }}")
+	public ResponseEntity<{{controller.contractResponseName}}> update{{controller.modelName}}(@RequestBody 
+			{{controller.contractName}} contract, @PathVariable {{ controller.pkDatatype}} {{ controller.idFieldName}}){
+		
+		{{controller.modelName}} updated{{controller.modelName}} = service.update{{controller.modelName}}(contract, {{ controller.idFieldName}});
+		{{controller.contractResponseName}} updatedContract = new {{controller.contractResponseName}}();
+		updatedContract = updatedContract.buildFrom(updated{{controller.modelName}});
+		log.info("Returning updated model response");
+		return ResponseEntity.ok(updatedContract);
+	}
+	
+	@DeleteMapping(value="/{{ controller.pathMappingDelete }}")
+	public ResponseEntity<Void> delete{{controller.modelName}}(@PathVariable {{ controller.pkDatatype}} {{ controller.idFieldName}}){
+		
+		service.delete{{controller.modelName}}({{ controller.idFieldName}});
+		log.info("Deleted model");
+		return ResponseEntity.ok(null);
+	}
+	
+}

@@ -1,0 +1,11 @@
+quarkus.http.port=8080
+
+quarkus.datasource.db-kind = mysql
+quarkus.datasource.jdbc.url = {{ configuration.dbUrl}}
+quarkus.datasource.username = {{ configuration.dbusername}}
+quarkus.datasource.password = {{ configuration.dbpassword}}
+quarkus.datasource.jdbc.max-size=8
+quarkus.datasource.jdbc.min-size=2
+
+quarkus.hibernate-orm.log.sql = true
+quarkus.hibernate-orm.database.generation = drop-and-create

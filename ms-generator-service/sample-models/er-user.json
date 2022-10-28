@@ -1,0 +1,103 @@
+{
+	"configurations": {
+		"persistence": "mysql",
+		"servicePort": "8090",
+		"serviceName": "erp-user-service",
+		"dbUrl": "jdbc:mysql://127.0.0.1:3306/erpuserdb?currentSchema=erpuserdb",
+		"dbusername": "erpuserdbuser1",
+		"dbpassword": "ChangeMe",
+		"dbDriver": "com.mysql.cj.jdbc.Driver",
+		"schemaName": "erpuserdb",
+		"pkType": "Long",
+		"collectionType": "List",
+		"databaseType": "mysql"
+	},
+	"models": [
+		{
+			"name": "User",
+			"entitytype": "Aggregate",
+			"fields": [
+				{
+					"name": "firstName",
+					"datatype": "string",
+					"maxlength": "100",
+					"required": "true"
+					
+				},
+				{
+					"name": "lastName",
+					"datatype": "string",
+					"maxlength": "100",
+					"required": "true"
+					
+				},
+				{
+					"name": "emailAddress",
+					"datatype": "string",
+					"maxlength": "100",
+					"required": "true"
+					
+				},
+				{
+					"name": "phoneNumber",
+					"datatype": "string",
+					"maxlength": "15",
+					"required": "true"
+					
+				},
+				{
+					"name": "addresses",
+					"datatype": "Address",
+					"maxlength": "",
+					"required": "",
+					"relation": "onetomany"
+					
+				}				
+
+			]
+		},
+		{
+			"name": "Address",
+			"entitytype": "ChildEntity",
+			"fields": [
+				{
+					"name": "address1",
+					"datatype": "string",
+					"maxlength": "500",
+					"required": "true"
+				},
+				{
+					"name": "address2",
+					"datatype": "string",
+					"maxlength": "100",
+					"required": "false"
+				},	
+				{
+					"name": "city",
+					"datatype": "string",
+					"maxlength": "50",
+					"required": "true"
+				},	
+				{
+					"name": "province",
+					"datatype": "string",
+					"maxlength": "50",
+					"required": "true"
+				},
+				{
+					"name": "region",
+					"datatype": "string",
+					"maxlength": "50",
+					"required": "true"
+				},
+				{
+					"name": "country",
+					"datatype": "string",
+					"maxlength": "50",
+					"required": "true"
+				}
+
+			]
+		}
+	]
+}

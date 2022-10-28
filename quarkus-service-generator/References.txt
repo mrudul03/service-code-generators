@@ -1,0 +1,17 @@
+
+https://thorben-janssen.com/panache-repository-pattern/
+https://thorben-janssen.com/introduction-panache/
+https://thorben-janssen.com/panache-active-record-pattern/
+
+Quarkus demo: Hibernate ORM with Panache and RESTEasy
+https://github.com/quarkusio/quarkus-quickstarts/tree/main/hibernate-orm-panache-quickstart
+
+SIMPLIFIED HIBERNATE ORM WITH PANACHE
+https://quarkus.io/guides/hibernate-orm-panache
+
+USING HIBERNATE ORM AND JPA
+https://quarkus.io/guides/hibernate-orm#quarkus-hibernate-orm_quarkus.hibernate-orm.datasource
+
+https://medium.com/geekculture/creating-a-crud-shopping-service-with-quarkus-hibernate-orm-panache-and-postgresql-using-active-41a755693f12
+
+https://edwin.baculsoft.com/2021/07/create-a-simple-crud-rest-api-using-quarkus/

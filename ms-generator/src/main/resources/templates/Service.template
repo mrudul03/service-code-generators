@@ -1,0 +1,58 @@
+package {{ service.packageName }};
+//import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+import {{ service.contractImport }};
+import {{ service.respositoryImport }};
+import {{ service.noDataFoundExceptionImport }};
+import {{ service.invalidDataExceptionImport }};
+
+@Service
+public class {{ service.className }} {
+
+	private {{service.respositoryName}} repository;
+	
+	public {{ service.className }}({{service.respositoryName}} repository){
+		this.repository = repository;
+	}
+	
+	public {{service.modelName}} add{{service.modelName}}({{service.modelName}}Request request) {
+		
+		{{service.modelName}} model = {{service.modelName}}.builder().buildFrom(request).build();
+		{{service.modelName}} savedModel = repository.save(model);
+		return savedModel;
+	}
+	
+	public {{service.modelName}} get{{service.modelName}}({{ service.pkDatatype}} {{service.idFieldName}}) {
+		if(null == {{service.idFieldName}}) {
+			throw new InvalidInputException("Invalid id. Id can not be null.");
+		}
+		
+		Optional<{{service.modelName}}> optional = repository.findById({{service.idFieldName}});
+		if(optional.isPresent()) {
+			return optional.get();
+		}
+		else {
+			throw new NoDataFoundException("No data found with id::"+{{service.idFieldName}});
+		}
+	}
+	
+	public {{service.modelName}} update{{service.modelName}}({{service.modelName}}Request request, {{ service.pkDatatype}} {{service.idFieldName}}) {
+		if(null == {{service.idFieldName}}) {
+			throw new InvalidInputException("Invalid id. Id can not be null.");
+		}
+		{{service.modelName}} model = {{service.modelName}}.builder().buildFrom(request).build({{service.idFieldName}});
+		repository.save(model);
+		return model;
+	}
+	
+	public void delete{{service.modelName}}({{ service.pkDatatype}} {{service.idFieldName}}) {
+		if(null == {{service.idFieldName}}) {
+			throw new InvalidInputException("Invalid id. Id can not be null.");
+		}
+		{{service.modelName}} model = this.get{{service.modelName}}({{service.idFieldName}});
+		repository.delete(model);
+	}
+
+}

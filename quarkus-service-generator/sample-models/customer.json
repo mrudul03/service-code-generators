@@ -1,0 +1,165 @@
+{
+    "configurations": {
+        "servicePort": "9292",
+        "serviceName": "ms-customer-service",
+        "schemaName": "mscustomerdb",
+        "contextPath": "customer"
+    },
+    "domains": [
+        {
+            "name": "Customer",
+            "entitytype": "Aggregate",
+            "fields": [
+                { "name": "firstName", "datatype": "string", "maxlength": "250", "required": true },
+                { "name": "lastName", "datatype": "string", "maxlength": "250", "required": true },
+                { "name": "contact", "datatype": "Contact", "maxlength": "", "required": true, "relation": "onetoone" },
+                { "name": "emails", "datatype": "Email", "maxlength": "", "required": true, "relation": "onetomany" },
+                { "name": "isDeleted", "datatype": "boolean", "maxlength": "", "required": false },
+                { "name": "insertedUserId", "datatype": "long", "maxlength": "", "required": true },
+                { "name": "insertedDate", "datatype": "date", "maxlength": "", "required": true },
+                { "name": "updatedUserId", "datatype": "long", "maxlength": "", "required": false },
+                { "name": "updatedDate", "datatype": "date", "maxlength": "", "required": false }           
+            ],
+            "operations": [
+                {
+                    "method": "GET",
+                    "name": "getCustomer",
+                    "description": "Returns infomation about specific Customer",
+                    "path": "/{customerId}",
+                    "pathparams":[ {"name":"customerId", "type":"long"}],
+                    "response": "CustomerResponse",
+                    "responses": {
+                        "200": {"type": "CustomerResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                
+                {
+                    "method": "POST",
+                    "name": "addCustomer",
+                    "description": "creates Customer",
+                    "path": "/",
+                    "body": { "type": "CustomerRequest"},
+                    "response": "CustomerResponse",
+                    "responses": {
+                        "201": {"type": "CustomerResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "PUT",
+                    "name": "deactivateCustomer",
+                    "description": "updates Customer for is deleted to true",
+                    "path": "/{customerId}/deactivate",
+                    "pathparams":[ {"name":"customerId", "type":"long"}],
+                    "response": "CustomerResponse",
+                    "responses": {
+                        "200": {"type": "CustomerResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "PUT",
+                    "name": "activateCustomer",
+                    "description": "updates Customer for is deleted to false",
+                    "path": "/{customerId}/activate",
+                    "pathparams":[ {"name":"customerId", "type":"long"}],
+                    "response": "CustomerResponse",
+                    "responses": {
+                        "200": {"type": "CustomerResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "PUT",
+                    "name": "updateCustomer",
+                    "description": "updates Customer ",
+                    "path": "/{customerId}",
+                    "pathparams":[ {"name":"customerId", "type":"long"}],
+                    "body": { "type": "CustomerRequest"},
+                    "response": "CustomerResponse",
+                    "responses": {
+                        "200": {"type": "CustomerResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "DELETE",
+                    "name": "deleteCustomer",
+                    "description": "deletes Customer ",
+                    "path": "/{customerId}",
+                    "pathparams":[ {"name":"customerId", "type":"long"}],
+                    "responses": {
+                        "200": {"type": ""},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Contact",
+            "entitytype": "ChildEntity",
+            "fields": [
+                { "name": "contactType", "datatype": "string", "maxlength": "30", "required": true },
+                { "name": "contactNumber", "datatype": "string", "maxlength": "30","required": true }        
+            ]
+        },
+        {
+            "name": "Email",
+            "entitytype": "ChildEntity",
+            "fields": [
+                { "name": "type", "datatype": "string", "maxlength": "20", "required": true },
+                { "name": "emailaddress", "datatype": "string", "maxlength": "50","required": true }        
+            ]
+        }
+    ],
+    "domainforms": [
+        {
+            "name": "CustomerRequest",
+            "entitytype": "Aggregate",
+            "fields":[
+                { "name": "firstName", "datatype": "string", "maxlength": "250", "required": true },
+                { "name": "lastName", "datatype": "string", "maxlength": "250", "required": true },
+                { "name": "contact", "datatype": "ContactDto", "maxlength": "", "required": true, "relation": "onetoone" },
+                { "name": "emails", "datatype": "EmailDto", "maxlength": "", "required": true, "relation": "onetomany" }
+            ]
+        },
+        {
+            "name": "CustomerResponse",
+            "entitytype": "Aggregate",
+            "fields":[
+                { "name": "firstName", "datatype": "string", "maxlength": "250", "required": true },
+                { "name": "lastName", "datatype": "string", "maxlength": "250", "required": true },
+                { "name": "contactPerson", "datatype": "ContactDto", "maxlength": "", "required": true, "relation": "onetoone" },
+                { "name": "emails", "datatype": "EmailDto", "maxlength": "", "required": true, "relation": "onetomany" },
+                { "name": "isDeleted", "datatype": "boolean", "maxlength": "", "required": false },
+                { "name": "insertedUserId", "datatype": "long", "maxlength": "", "required": true },
+                { "name": "insertedDate", "datatype": "date", "maxlength": "", "required": true },
+                { "name": "updatedUserId", "datatype": "long", "maxlength": "", "required": false },
+                { "name": "updatedDate", "datatype": "date", "maxlength": "", "required": false }        
+            ]
+        },
+        {
+            "name": "EmailDto",
+            "entitytype": "ChildEntity",
+            "fields": [
+                { "name": "type", "datatype": "string", "maxlength": "20", "required": true },
+                { "name": "emailaddress", "datatype": "string", "maxlength": "50","required": true }        
+            ]
+        },
+        {
+            "name": "ContactDto",
+            "entitytype": "ChildEntity",
+            "fields": [
+                { "name": "contactType", "datatype": "string", "maxlength": "30", "required": true },
+                { "name": "contactNumber", "datatype": "string", "maxlength": "30","required": true }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,102 @@
+
+{
+    "configurations": {
+        "servicePort": "10017",
+        "serviceName": "fwy-masterdata-service",
+        "schemaName": "fwymasterdb",
+        "contextPath": "masterdata",
+        "databaseType": "mongo"
+    },
+    "domains": [
+        {
+            "name": "PartyType",
+            "entitytype": "Aggregate",
+            "fields": [
+                { "name": "partyTypeId", "datatype": "integer", "maxlength": "", "required": true },
+                { "name": "partyType", "datatype": "string", "maxlength": "50", "required": true }
+                          
+            ],
+            "operations": [
+                {
+                    "method": "GET",
+                    "name": "getPartyTypes",
+                    "description": "Returns infomation about specific Party type",
+                    "path": "/{partyTypeId}",
+                    "pathparams":[ {"name":"partyTypeId", "type":"string"}],
+                    "response": "PartyTypeResponse",
+                    "responses": {
+                        "200": {"type": "PartyTypeResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                
+                {
+                    "method": "GET",
+                    "name": "getAllPartyTypes",
+                    "description": "Returns a list of partytypes",
+                    "path": "/",
+                    "requestparams":[ 
+                        
+                    ],
+                    "response": "PartyTypeList",
+                    "responses": {
+                        "200": {"type": "PartyTypeList"}
+                    }
+                },
+                {
+                    "method": "POST",
+                    "name": "addPartyType",
+                    "description": "creates a party type",
+                    "path": "/",
+                    "body": { "type": "PartyTypeRequest"},
+                    "response": "PartyTypeResponse",
+                    "responses": {
+                        "201": {"type": "PartyTypeResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "PUT",
+                    "name": "updatePartyType",
+                    "description": "updates a given party type ",
+                    "path": "/{partyTypeId}",
+                    "pathparams":[ {"name":"dataId", "type":"string"}],
+                    "body": { "type": "PartyTypeRequest"},
+                    "response": "PartyTypeResponse",
+                    "responses": {
+                        "200": {"type": "PartyTypeResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                }
+            ]
+        }
+    ],
+    "domainforms": [
+        {
+            "name": "PartyTypeRequest",
+            "entitytype": "Aggregate",
+            "fields":[
+                { "name": "partyTypeId", "datatype": "integer", "maxlength": "", "required": true },
+                { "name": "partyType", "datatype": "string", "maxlength": "50", "required": true }
+            ]
+        },
+        {
+            "name": "PartyTypeResponse",
+            "entitytype": "Aggregate",
+            "fields":[
+                { "name": "partyTypeId", "datatype": "integer", "maxlength": "", "required": true },
+                { "name": "partyType", "datatype": "string", "maxlength": "50", "required": true }
+            ]
+        },
+        {
+            "name": "PartyTypeList",
+            "entitytype": "Aggregate",
+            "fields":[
+                { "name": "partytypes", "datatype": "PartyTypeResponse", "relation": "onetomany" }
+            ]
+        }
+    ]
+}

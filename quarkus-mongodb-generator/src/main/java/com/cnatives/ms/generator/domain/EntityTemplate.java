@@ -1,0 +1,198 @@
+package com.cnatives.ms.generator.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.cnatives.ms.contract.DomainModel;
+import com.cnatives.ms.contract.DomainModelForm;
+import com.cnatives.ms.contract.Field;
+import com.cnatives.ms.generator.base.BaseClass;
+import com.cnatives.ms.generator.base.GeneratorMetaData;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
+@EqualsAndHashCode(callSuper=true)
+public class EntityTemplate extends BaseClass {
+
+	private static final String DOMAINENTITY_TEMPLATE = "domainentity.template";
+	private static final String DOMAIN = "domain";
+	private static final String FILE_EXTENSION = ".java";
+	
+	@Getter
+	private List<ClassField> classfields = new ArrayList<>();
+	
+	@Getter
+	private ClassField idField;
+	
+	@Getter
+	private String dateDeclared;
+	
+	@Getter
+	private String setDeclared;
+	
+	@Getter
+	private String listDeclared;
+	
+	@Getter
+	private String classNameVariable;
+	
+	@Getter
+	private String entityType;
+	
+	@Getter
+	private String idFieldType;
+	
+	@Getter
+	private String idFieldName;
+	
+	@Getter
+	private String idColumnName;
+	
+	@Getter
+	private String entityAnnotation;
+	
+	@Getter
+	private String tableName;
+	
+	private EntityTemplate() {}
+	
+	private void updateTemplateDetails(final GeneratorMetaData metaData, DomainModel domainModel) {
+		this.templateName = DOMAINENTITY_TEMPLATE;
+		this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModel.getDomainName())+DOMAIN+"/";
+		this.fileExtension = FILE_EXTENSION;
+		this.bindingName = "domainentity";
+	}
+	
+	private void updateClassDetails(
+			final List<DomainModel> domainModels,
+			final DomainModel domainModel,
+			final GeneratorMetaData metaData) {
+	
+		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
+			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+		}
+		else {
+			this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+		}
+		this.classfields = this.createClassFields(domainModel, metaData);
+		this.className = domainModel.getName()+"Entity";
+		this.classNameVariable = this.getClassNameVariable(domainModel.getName())+"Entity";
+		this.entityType = domainModel.getEntitytype();
+		
+		this.dateDeclared = this.getDateDeclared(this.classfields);
+		this.setDeclared = this.getSetDeclared(this.classfields);
+		this.listDeclared = this.getListDeclared(this.classfields);
+		
+		this.idField = this.getIdField(metaData.getPkClazzName());
+		this.idFieldName = this.getClassNameVariable(domainModel.getName())+"EntityId";
+		if(null != this.idField) {
+			//this.idFieldType = this.idField.getDatatypeClassName();
+			this.idFieldType = "ObjectId";
+		}
+		entityAnnotation = "@MongoEntity(collection=\""+domainModel.getName().toLowerCase()+"\")";
+	}
+	
+	private List<ClassField> createClassFields(final DomainModel domainModel, GeneratorMetaData metaData){
+		List<ClassField> classFields = new ArrayList<>();
+		
+		for(Field field:domainModel.getFields()) {
+			ClassField classField = ClassField.builder().buildFrom(field, metaData.getPkClazzName(), metaData.getDatabaseType());
+			classFields.add(classField);
+		}
+		return classFields;
+	}
+	
+	private ClassField getIdField(
+			final String pkClazzName){
+		
+		ClassField classField = ClassField.builder().createIdField(pkClazzName);
+		return classField;
+	}
+	
+	private String getClassNameVariable(String className) {
+        String result = "";
+        if(null != className && className.length() > 0) {
+        	// Append first character(in lower case)
+            char c = className.charAt(0);
+            result = Character.toLowerCase(c)+ className.substring(1);
+        }
+        else {
+        	result = "model";
+        }
+        //log.info("ClassNameVariable as::"+result);
+        return result;
+	}
+	
+	private String getDateDeclared(List<ClassField> fields) {
+		String dateDeclared = null;
+		for(ClassField classField:fields) {
+			if(classField.getDatatype().equalsIgnoreCase("Date")) {
+				dateDeclared = "Date";
+				break;
+			}
+		}
+		return dateDeclared;
+	}
+	private String getSetDeclared(List<ClassField> fields) {
+		String setDeclared = null;
+		for(ClassField classField:fields) {
+			if(classField.getDatatypeClassName().contains("Set")) {
+				setDeclared = "Set";
+				break;
+			}
+		}
+		return setDeclared;
+	}
+	private String getListDeclared(List<ClassField> fields) {
+		String setDeclared = null;
+		for(ClassField classField:fields) {
+			if(classField.getDatatypeClassName().contains("List")) {
+				setDeclared = "List";
+				break;
+			}
+		}
+		return setDeclared;
+	}
+	
+	public static DomainEntityTemplateBuilder builder() {
+		return new DomainEntityTemplateBuilder();
+	}
+	
+	public static class DomainEntityTemplateBuilder{
+		
+		public EntityTemplate buildFrom(
+				final List<DomainModel> domainModels,
+				final DomainModel domainModel,
+				final GeneratorMetaData metaData,
+				final List<DomainModelForm> domainforms) {
+			
+			EntityTemplate template = new EntityTemplate();
+			template.updateClassDetails(domainModels, domainModel, metaData);
+			template.updateTemplateDetails(metaData, domainModel);
+			//template.addPostRequestNames(domainModel, domainforms);
+			return template;
+		}
+	}
+	
+//	private String generateTableName(String name) {
+//		String[] words = name.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
+//		StringBuilder sbTableName = new StringBuilder();
+//		for(String word : words) {
+//			sbTableName.append(word.toLowerCase()+"_");
+//		}
+//		String tableName = sbTableName.toString().substring(0, sbTableName.length()-1);
+//	    return tableName;
+//	}
+//
+//	private String generateIdColumnName(String name) {
+//		String[] words = name.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
+//		StringBuilder sbIdColumnName = new StringBuilder();
+//		for(String word : words) {
+//			sbIdColumnName.append(word.toLowerCase()+"_");
+//		}
+//		String idColumnName = sbIdColumnName.toString().substring(0, sbIdColumnName.length()-1);
+//		idColumnName = idColumnName+"_id";
+//	    return idColumnName;
+//	}
+}

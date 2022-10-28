@@ -1,0 +1,27 @@
+---
+  # the values can be mysql or postgresql or none
+  persistence: mysql
+  servicePort: 8090
+  serviceName: customer-service
+  dbUrl: jdbc:mysql://127.0.0.1:3306/custgendb?currentSchema=custgendb
+  dbusername: custdbuser1
+  dbpassword: ChangeMe
+  dbDriver: com.mysql.cj.jdbc.Driver
+  schemaName: custgendb
+  pkType: Integer
+  collectionType: List
+  databaseType: mysql
+
+
+  # the values can be mysql or postgresql or none
+  #persistence: postgresql
+  #servicePort: 8090
+  #serviceName: customer-service
+  #dbUrl: jdbc:postgresql://127.0.0.1:5432/custgendb?currentSchema=custgendb
+  #dbusername: custdbuser1
+  #dbpassword: Changeme
+  #dbDriver: org.postgresql.Driver
+  #schemaName: custgendb
+  #pkType: Integer
+  #collectionType: List
+  #databaseType: postgresql

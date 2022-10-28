@@ -1,0 +1,27 @@
+package {{ service.packageName }};
+
+import lombok.extern.slf4j.Slf4j;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
+import {{ service.contractImport }};
+
+@ApplicationScoped
+@Slf4j
+public class {{ service.className }} {
+	
+	@Inject
+	{{service.repository}} {{ service.repositoryVariable}};
+	
+	{%- for operation in service.operations  %}
+	public {{operation.response}} {{operation.operationName}}({{operation.parametersAsString}}) {
+		
+		//TODO
+		return null;
+	}
+	
+	{%- endfor %}
+	
+}

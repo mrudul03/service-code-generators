@@ -1,0 +1,35 @@
+
+# Download and Start database
+pg_ctl -D /usr/local/var/postgres start
+pg_ctl -D /usr/local/var/postgres stop
+
+# Open postgres client
+psql postgres
+
+# Connect default database
+postgres=# \c postgres
+
+# Show all databases
+\l
+
+========================
+# Create user for new database
+create user riskprofiledbuser1;
+alter user riskprofiledbuser1 with encrypted password 'ChangeMe';
+
+# Create database and grant privilege to user
+create database riskprofiledb;
+grant all privileges on database riskprofiledb to riskprofiledbuser1;
+
+# Connect to newly created database
+\c riskprofiledb riskprofiledbuser1;
+
+# Show tables
+\dt
+
+# Quit from Postgre Database
+\q
+========================
+
+http://localhost:8090/api/riskprofile-service/riskprofile
+

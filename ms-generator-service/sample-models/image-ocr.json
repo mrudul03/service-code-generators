@@ -1,0 +1,118 @@
+
+{
+	"configurations": {
+		"persistence": "mysql",
+		"servicePort": "8090",
+		"serviceName": "image-ocr-service",
+		"dbUrl": "jdbc:mysql://127.0.0.1:3306/imageocrdb?currentSchema=imageocrdb",
+		"dbusername": "imageocrdbuser1",
+		"dbpassword": "ChangeMe",
+		"dbDriver": "com.mysql.cj.jdbc.Driver",
+		"schemaName": "imageocrdb",
+		"pkType": "Integer",
+		"collectionType": "List",
+		"databaseType": "mysql"
+	},
+	"models": [
+		{
+			"name": "ImageCategory",
+			"entitytype": "ReferenceAggregate",
+			"fields": [
+				{
+					"name": "categoryDescription",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+					
+				},
+				{
+					"name": "categoryCode",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+					
+				},
+				{
+					"name": "isActive",
+					"datatype": "boolean",
+					"maxlength": "",
+					"required": "",
+					"relation": ""
+					
+				}
+
+			]
+		},
+		{
+			"name": "ImageTemplate",
+			"entitytype": "Aggregate",
+			"fields": [
+				{
+					"name": "patronId",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+				},
+				{
+					"name": "templateName",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+				},	
+				{
+					"name": "categoryCode",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+				},	
+				{
+					"name": "annotations",
+					"datatype": "ImageAnnotation",
+					"maxlength": "",
+					"required": "",
+					"relation": "onetomany"
+				}
+
+			]
+		},
+		{
+			"name": "ImageAnnotation",
+			"entitytype": "ChildEntity",
+			"fields": [
+				{
+					"name": "extractedText",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+				},
+				{
+					"name": "vertices",
+					"datatype": "AnnotationVertex",
+					"maxlength": "",
+					"required": "",
+					"relation": "onetomany"
+				}
+
+			]
+		},
+		{
+			"name": "AnnotationVertex",
+			"entitytype": "ChildEntity",
+			"fields": [
+				{
+					"name": "x",
+					"datatype": "int",
+					"maxlength": "",
+					"required": "true"
+				},
+				{
+					"name": "y",
+					"datatype": "int",
+					"maxlength": "",
+					"required": "true"
+				}
+
+			]
+		}		
+	]
+}

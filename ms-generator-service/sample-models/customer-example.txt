@@ -1,0 +1,54 @@
+
+# Download and Start database
+pg_ctl -D /usr/local/var/postgres start
+pg_ctl -D /usr/local/var/postgres stop
+
+# Open postgres client
+psql postgres
+
+# Connect default database
+postgres=# \c postgres
+
+# Show all databases
+\l
+
+========================
+# Create user for new database
+create user custgendbuser1;
+alter user custgendbuser1 with encrypted password 'ChangeMe';
+
+# Create database and grant privilege to user
+create database custgendb;
+grant all privileges on database custgendb to custgendbuser1;
+
+# Connect to newly created database
+\c custgendb custgendbuser1;
+
+# Show tables
+\dt
+
+# Quit from Postgre Database
+\q
+========================
+
+http://localhost:8090/api/customer-service
+
+POST
+{
+	"firstName": "test firstname",
+	"lastName": "test lastname",
+	"address" : {
+		"address1": "Paradise 23 ",
+		"address2": "Baner Road ",
+		"city": "city ",
+		"state": "Maharashtra ",
+		"zipcode": "411045 ",
+		"country": "India"
+	},
+	"emails": [
+		{
+			"emailaddress":"abc@gmail.com",
+			"emailtype": "Work"
+		}
+	]
+}

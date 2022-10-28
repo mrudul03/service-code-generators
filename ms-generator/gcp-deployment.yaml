@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-generator-service-dep
+  labels:
+    app: ms-generator-service-app
+spec:
+  selector:
+    matchLabels:
+      app: ms-generator-service-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ms-generator-service-app
+    spec:
+      volumes:
+        - name: generated-data
+          emptyDir: {}
+
+      containers:
+        - name: ms-generator-service-dep
+          image: gcr.io/ocr-poc-307111/ms-generator-service:v01
+          volumeMounts:
+            - name: generated-data
+              mountPath: /rootdir
+              
+          imagePullPolicy: Always
+                 
+          ports:
+            - containerPort: 8080

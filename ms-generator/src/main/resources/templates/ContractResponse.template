@@ -1,0 +1,69 @@
+package {{ contract.packageName }};
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import {{ contract.modelPackageName }}.*;
+{% if contract.dateDeclared is defined %}
+import java.sql.Timestamp;
+{% endif %}
+{% if contract.setDeclared is defined %}
+import java.util.Set;
+import java.util.HashSet;
+{% endif %}
+{% if contract.listDeclared is defined %}
+import java.util.List;
+import java.util.ArrayList;
+{% endif %}
+
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class {{ contract.className }} {
+
+	{% if contract.idField is defined %}
+	private {{contract.idFieldType}} {{contract.idFieldName}};
+	{% endif %}
+
+	
+	{%- for field in contract.classfields  %}
+	{% if field.isCollection is defined %}
+	@Builder.Default
+	private {{field.collectionDatatypeResponse}};
+	public void addItem({{field.camelCaseDatatypeResponse}} item) {
+        this.{{field.name}}.add(item);
+    }
+    {% elif field.isCustom is defined %}
+    private {{field.camelCaseDatatypeResponse}} {{ field.name }};
+	{% else %}
+	private {{field.datatypeStringContract}} {{ field.name }};
+	{% endif %}
+	
+	{%- endfor %}
+	
+	public {{ contract.className }} buildFrom({{ contract.modelName }} model) {
+		{{ contract.className }} response = new {{ contract.className }}();
+		{% if contract.idField is defined %}
+		response.set{{contract.capIdFieldName}}(model.get{{contract.capIdFieldName}}());
+		{% endif %}
+		{%- for field in contract.classfields  %}
+		{% if field.isCollection is defined %}
+		for({{field.camelCaseDatatype}} item: model.get{{ field.capitalizedName }}()){
+		   {{field.camelCaseDatatypeResponse}} responseItem = new {{field.camelCaseDatatypeResponse}}();
+		   responseItem = responseItem.buildFrom(item);
+		   response.addItem(responseItem);
+		}
+		{% elif field.isCustom is defined %}
+		{{field.camelCaseDatatypeResponse}} customItem = new {{field.camelCaseDatatypeResponse}}();
+		customItem = customItem.buildFrom(model.get{{field.capitalizedName}}());
+		response.set{{field.capitalizedName}}(customItem);
+		{% else %}
+		response.set{{field.capitalizedName}}(model.get{{ field.capitalizedName }}());
+		{% endif %}
+		{%- endfor %}
+		return response;
+	}
+}

@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ["health", "info", "metrics", "prometheus", "bindings", "beans", "env", "loggers", "streamsbindings"]
+    
+spring:
+  application:
+    name: quarkus-service-generator
+        
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+
+gcp:
+  project:
+    id: gh-erp-project-3612
+    
+file:
+  archive:
+    bucketname: dev-generated-code   

@@ -1,0 +1,116 @@
+{
+	"configurations": {
+		"persistence": "mysql",
+		"servicePort": "8090",
+		"serviceName": "customer-service",
+		"dbUrl": "jdbc:mysql://127.0.0.1:3306/custgendb?currentSchema=custgendb",
+		"dbusername": "custdbuser1",
+		"dbpassword": "ChangeMe",
+		"dbDriver": "com.mysql.cj.jdbc.Driver",
+		"schemaName": "custgendb",
+		"pkType": "Integer",
+		"collectionType": "List",
+		"databaseType": "mysql"
+	},
+	"models": [
+		{
+			"name": "Customer",
+			"entitytype": "Aggregate",
+			"fields": [
+				{
+					"name": "firstName",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+					
+				},
+				{
+					"name": "lastName",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+					
+				},
+				{
+					"name": "address",
+					"datatype": "address",
+					"maxlength": "",
+					"required": "",
+					"relation": "onetoone"
+					
+				},
+				{
+					"name": "emails",
+					"datatype": "Email",
+					"maxlength": "",
+					"required": "",
+					"relation": "onetomany"
+					
+				}				
+
+			]
+		},
+		{
+			"name": "Address",
+			"entitytype": "ChildEntity",
+			"fields": [
+				{
+					"name": "address1",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+				},
+				{
+					"name": "address2",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+				},	
+				{
+					"name": "city",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+				},	
+				{
+					"name": "state",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+				},
+				{
+					"name": "zipcode",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+				},
+				{
+					"name": "country",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+				}
+
+			]
+		},
+		{
+			"name": "Email",
+			"entitytype": "ChildEntity",
+			"fields": [
+				{
+					"name": "emailaddress",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+				},
+				{
+					"name": "emailtype",
+					"datatype": "string",
+					"maxlength": "30",
+					"required": "true"
+				}
+
+			]
+		}
+	]
+}

@@ -1,0 +1,11 @@
+package {{ repository.packageName }};
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import {{ repository.modelImport }};
+
+@Repository
+public interface {{ repository.className }} extends CrudRepository<{{ repository.modelClassName}}, {{ repository.pkDatatype}}>{
+
+}

@@ -1,0 +1,151 @@
+package {{ model.packageName }};
+{% if model.idField is defined %}
+import org.springframework.data.annotation.Id;
+import lombok.Setter;
+{% endif %}
+import {{ model.contractPackageName }}.*;
+import lombok.Getter;
+{% if model.pkuuidDeclared is defined %}
+import java.util.UUID;
+{% endif %}
+import org.springframework.data.relational.core.mapping.Column;
+{% if model.dateDeclared is defined %}
+import java.sql.Timestamp;
+{% endif %}
+{% if model.setDeclared is defined %}
+import java.util.Set;
+import java.util.HashSet;
+{% endif %}
+{% if model.listDeclared is defined %}
+import java.util.List;
+import java.util.ArrayList;
+{% endif %}
+
+public class {{ model.className }} {{ model.generatorId }} {
+    
+    {% if model.idField is defined %}
+    @Getter
+    @Setter
+    @Id
+    @Column("{{model.idColumnName}}")
+    private {{model.idFieldType}} {{ model.idFieldName}};
+    {% endif %}
+    {%- for field in model.classfields  %}
+    
+    {% if field.isCollection is defined %}
+    @Getter
+    private {{field.modelCollectionDatatype}};
+    public void addItem({{field.camelCaseDatatype}} item) {
+        this.{{field.name}}.add(item);
+    }
+    {% elif field.isCustom is defined %}
+    @Getter
+    private {{field.camelCaseDatatype}} {{ field.name }};
+    {% else %}
+    {% if field.columnName is defined %}@Column("{{field.columnName}}") {% endif %}
+    @Getter
+    private {{field.datatypeString}} {{ field.name }};
+    {% endif %}
+    
+    {%- endfor %}
+    
+    protected {{ model.className }}(){}
+    
+    public static {{ model.className }}Builder builder() {
+        return new {{ model.className }}Builder();
+    }
+    
+    public static class {{ model.className }}Builder {
+        {%- for field in model.classfields  %}
+        {% if field.isCollection is defined %}
+        private {{field.modelCollectionDatatype}};
+        public {{ model.className }}Builder with{{ field.capitalizedName}}(final {{field.collectionDataType}} {{ field.name }}) {
+            this.{{ field.name }} = {{ field.name }};
+            return this;
+        }
+        {% elif field.isCustom is defined %}
+        private {{field.camelCaseDatatype}} {{ field.name }};
+        public {{ model.className }}Builder with{{ field.capitalizedName}}(final {{field.camelCaseDatatype}} {{ field.name }}) {
+            this.{{ field.name }} = {{ field.name }};
+            return this;
+        }
+        {% else %}
+        private {{field.datatypeString}} {{ field.name }};
+        public {{ model.className }}Builder with{{ field.capitalizedName}}(final {{field.datatypeString}} {{ field.name }}) {
+            this.{{ field.name }} = {{ field.name }};
+            return this;
+        }
+        {% endif %}
+        {%- endfor %}
+        {% if model.childCollectionWithStringPk is defined %}
+        private String {{ model.idFieldName}};
+		public {{ model.className }}Builder withId(final String {{ model.idFieldName}}) {
+			this.{{ model.idFieldName}} = {{ model.idFieldName}};
+			return this;
+		}
+        public {{ model.className }}Builder buildFrom({{ model.className }}Request request, String {{ model.idFieldName}}) {
+            this.withId({{ model.idFieldName}});
+            {%- for field in model.classfields  %}
+            {% if field.isCollection is defined %}
+            for({{field.camelCaseDatatype}}Request item: request.get{{ field.capitalizedName }}()){
+                {% if model.pkuuidDeclared is defined %}
+                {{field.camelCaseDatatype}} modelItem = {{field.camelCaseDatatype}}.builder().buildFrom(item, UUID.randomUUID().toString()).build();
+                {% else %}
+                {{field.camelCaseDatatype}} modelItem = {{field.camelCaseDatatype}}.builder().buildFrom(item).build();
+                {% endif %}
+                this.{{ field.name }}.add(modelItem);
+            }
+            {% elif field.isCustom is defined %}
+            {{field.camelCaseDatatype}} customItem = {{field.camelCaseDatatype}}.builder().buildFrom(request.get{{field.capitalizedName}}()).build();
+            this.with{{field.capitalizedName}}(customItem);
+            {% else %}
+            this.with{{field.capitalizedName}}(request.get{{ field.capitalizedName }}());
+            {% endif %}
+            {%- endfor %}
+            return this;
+        }
+        {% else %}
+        public {{ model.className }}Builder buildFrom({{ model.className }}Request request) {
+            {%- for field in model.classfields  %}
+            {% if field.isCollection is defined %}
+            for({{field.camelCaseDatatype}}Request item: request.get{{ field.capitalizedName }}()){
+                {% if model.pkuuidDeclared is defined %}
+                {{field.camelCaseDatatype}} modelItem = {{field.camelCaseDatatype}}.builder().buildFrom(item, UUID.randomUUID().toString()).build();
+                {% else %}
+                {{field.camelCaseDatatype}} modelItem = {{field.camelCaseDatatype}}.builder().buildFrom(item).build();
+                {% endif %}
+                this.{{ field.name }}.add(modelItem);
+            }
+            {% elif field.isCustom is defined %}
+            {{field.camelCaseDatatype}} customItem = {{field.camelCaseDatatype}}.builder().buildFrom(request.get{{field.capitalizedName}}()).build();
+            this.with{{field.capitalizedName}}(customItem);
+            {% else %}
+            this.with{{field.capitalizedName}}(request.get{{ field.capitalizedName }}());
+            {% endif %}
+            {%- endfor %}
+            return this;
+        }
+        {% endif %}
+        
+        public {{ model.className }} build() {
+            {{ model.className }} {{ model.classNameVariable}} = new {{ model.className }}();
+            {% if model.childCollectionWithStringPk is defined %}
+            {{ model.classNameVariable}}.{{ model.idFieldName}} = this.{{ model.idFieldName}};
+            {% endif %}
+            {%- for field in model.classfields  %}
+            {{ model.classNameVariable}}.{{ field.name }} = this.{{ field.name }};
+            {%- endfor %}
+            return {{ model.classNameVariable}};
+        }
+        
+        {% if model.idField is defined %}
+        public {{ model.className }} build({{model.idFieldType}} {{ model.idFieldName}}) {
+            {{ model.className }} {{ model.classNameVariable}} = this.build();
+            {{ model.classNameVariable}}.{{ model.idFieldName}} = {{ model.idFieldName}};
+            return {{ model.classNameVariable}};
+        }
+        {% endif %}
+        
+   }
+   
+}

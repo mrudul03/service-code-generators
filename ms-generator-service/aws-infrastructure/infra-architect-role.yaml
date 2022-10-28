@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: This stack creates a role for infrastructure team. 
+Parameters: 
+  EnvironmentName: 
+    Type: String
+    Default: Dev
+    Description: Name of the environment.
+
+Resources:
+  InfraTeamRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: Infra-Team-Role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "s3.amazonaws.com"
+            Action: 
+              - "sts:AssumeRole"
+
+  CfBucketPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: S3Policy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Action: ["s3:*"]
+            Effect: "Allow"
+            Resource: "*"
+      Roles:
+        - !Ref InfraTeamRole
+
+Outputs:
+  ABPInfraRole:
+    Values: !GetAtt InfraTeamRole
+
+
+               

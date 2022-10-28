@@ -1,0 +1,49 @@
+ocr-poc-307111
+
+gcloud compute regions describe us-east1 --project=ocr-poc-307111
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Setting up environment
+
+gcloud config set project ocr-poc-307111
+gcloud config set compute/region us-east1
+gcloud config set compute/zone us-east1-b
+
+### Enable APIs
+gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com compute.googleapis.com gkeconnect.googleapis.com container.googleapis.com
+
+### Set Environment Variables
+export REGION=us-east1
+export ZONE=us-east1-b
+export PROJECT_ID=ocr-poc-307111
+export CLUSTER_NAME=poc-cluster
+export GSA_NAME=poc-sa
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Create GKE Cluster
+gcloud container clusters create ${CLUSTER_NAME} --zone ${ZONE} --image-type ubuntu \
+    --scopes "https://www.googleapis.com/auth/cloud-platform" \
+    --num-nodes "2"
+
+gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${ZONE}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#### Deploy K8S service
+Deploy microservice via kubectl
+docker build -t ms-generator-service:v01 .
+docker tag ms-generator-service:v01 gcr.io/ocr-poc-307111/ms-generator-service:v01
+gcloud auth configure-docker
+docker push gcr.io/ocr-poc-307111/ms-generator-service:v01
+
+kubectl apply -f gcp-deployment.yaml
+kubectl apply -f gcp-service.yaml
+
+k logs imgservice-dep-65bdc969f7-lqqvj
+
+kubectl delete deployment imgservice-dep
+kubectl delete service imgservice-svc
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Delete K8S cluster
+gcloud container clusters delete ${CLUSTER_NAME} --zone ${ZONE}
+

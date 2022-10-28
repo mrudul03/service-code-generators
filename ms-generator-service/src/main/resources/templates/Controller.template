@@ -1,0 +1,103 @@
+package {{ controller.packageName }};
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.data.relational.core.conversion.DbActionExecutionException;
+import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
+
+import {{ controller.modelImport }};
+import {{ controller.contractImport }};
+import {{ controller.respositoryImport }};
+import {{ controller.transformImport }};
+import {{ controller.exceptionImport }};
+
+
+@RestController
+@RequestMapping(value="{{ controller.requestMapping }}")
+@Slf4j
+public class {{ controller.className }} {
+	
+	@Autowired
+	private {{controller.respositoryName}} repository;
+	
+	@Autowired
+	private {{controller.transformerName}} transformer;
+	
+	@GetMapping("/{{ controller.pathMappingGet }}")
+	public ResponseEntity<{{controller.contractName}}> get{{controller.modelName}}(
+		@PathVariable {{ controller.pkDatatype}} id){
+		
+		{{controller.modelName}} model = null;
+		{{controller.contractName}} contract = null;
+		Optional<{{controller.modelName}}> modelOptional = repository.findById(id);
+		if(modelOptional.isPresent()) {
+			model = modelOptional.get();
+			contract = transformer.transform{{controller.modelName}}ToContract(model);
+		}
+		else {
+			// throw NoSuchElementException
+			throw new NoDataFoundException("No data found for:"+id);
+		}
+		return ResponseEntity.ok(contract);
+	}
+	
+	@PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,
+			 value="/{{controller.pathMappingPost}}")
+	public ResponseEntity<{{controller.contractName}}> create{{controller.modelName}}(@RequestBody 
+			{{controller.contractName}} contract){
+		
+		{{controller.modelName}} model = transformer.transform{{controller.contractName}}ToModel(contract);
+		{{controller.modelName}} savedModel = repository.save(model);
+		{{controller.contractName}} updatedContract = transformer.transform{{controller.modelName}}ToContract(savedModel);
+		
+		return ResponseEntity.ok(updatedContract);
+	}
+	
+	@PutMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,
+			 value="{{ controller.pathMappingPut }}")
+	public ResponseEntity<{{controller.contractName}}> update{{controller.modelName}}(@RequestBody 
+			{{controller.contractName}} contract, @PathVariable {{ controller.pkDatatype}} id){
+		
+		{{controller.modelName}} model = transformer.transform{{controller.contractName}}ToModel(contract);
+		model.setId(id);
+		{{controller.modelName}} updatedModel = null;
+		{{controller.contractName}} updatedContract = null;
+		try {
+			updatedModel = repository.save(model);
+			updatedContract = transformer.transform{{controller.modelName}}ToContract(updatedModel);
+			
+		}catch(DbActionExecutionException e) {
+			log.error("DbActionExecutionException", e);
+			throw new NoDataFoundException("No data found for:"+id);
+		}
+		return ResponseEntity.ok(updatedContract);
+	}
+	
+	@DeleteMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,
+			 value="{{ controller.pathMappingGet }}")
+	public ResponseEntity<String> delete{{controller.modelName}}(@PathVariable {{ controller.pkDatatype}} id){
+		
+		{{controller.modelName}} model = null;
+		Optional<{{controller.modelName}}> optionalModel = repository.findById(id);
+		if(optionalModel.isPresent()) {
+			model = optionalModel.get();
+			repository.delete(model);
+		}
+		else {
+			throw new NoDataFoundException("No data found for customer:"+id);
+		}
+		return ResponseEntity.ok("Success");
+	}
+	
+}

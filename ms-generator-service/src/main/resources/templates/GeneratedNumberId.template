@@ -1,0 +1,5 @@
+package {{ generateId.packageName }};
+
+public interface GeneratedNumberId {
+
+}

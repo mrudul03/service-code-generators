@@ -1,0 +1,45 @@
+package {{ domainentitymapper.packageName }};
+
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class {{ domainentitymapper.className}} {
+
+	//DomaintoEntity
+	private Function<{{ domainentitymapper.domainClassName}}, {{domainentitymapper.domainEntityClassName}}> map{{domainentitymapper.domainClassName}}ToEntityFn = new 
+			Function<{{ domainentitymapper.domainClassName}}, {{domainentitymapper.domainEntityClassName}}>(){
+
+				@Override
+				public {{domainentitymapper.domainEntityClassName}} apply({{ domainentitymapper.domainClassName}} domain) {
+					{{domainentitymapper.domainEntityClassName}} entity = new {{domainentitymapper.domainEntityClassName}}();
+					{%- for field in domainentitymapper.entityClassFields  %}
+					entity.set{{field.capitalizedName}}(domain.get{{field.capitalizedName}}());
+					{%- endfor %}
+					
+					return entity;
+				}
+		
+	};
+	
+	//EntityToDomain
+	private Function<{{domainentitymapper.domainEntityClassName}}, {{domainentitymapper.domainClassName}}> map{{domainentitymapper.domainEntityClassName}}ToDomainFn = new 
+			Function<{{domainentitymapper.domainEntityClassName}}, {{domainentitymapper.domainClassName}}>(){
+			
+				@Override
+				public {{domainentitymapper.domainClassName}} apply({{domainentitymapper.domainEntityClassName}} entity) {
+					{{domainentitymapper.domainClassName}} domain = {{domainentitymapper.domainClassName}}.builder().buildFrom(entity).build();
+					return domain;
+				}
+	};
+	
+	public {{domainentitymapper.domainEntityClassName}} transform{{domainentitymapper.domainClassName}}ToEntity({{domainentitymapper.domainClassName}} model) {
+		return this.map{{domainentitymapper.domainClassName}}ToEntityFn.apply(model);
+	}
+	
+	public {{domainentitymapper.domainClassName}} transform{{domainentitymapper.domainEntityClassName}}ToDomain({{domainentitymapper.domainEntityClassName}} contract) {
+		return this.map{{domainentitymapper.domainEntityClassName}}ToDomainFn.apply(contract);
+	}
+}

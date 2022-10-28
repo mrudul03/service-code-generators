@@ -1,0 +1,24 @@
+
+server:
+  port: {{ configuration.servicePort}}
+  servlet:
+    context-path: /{{ configuration.serviceName }}
+
+spring:
+  application:
+    name: {{ configuration.serviceName}}
+  datasource:
+    url: {{ configuration.dbUrl}}
+    username: {{ configuration.dbusername}}
+    password: {{ configuration.dbpassword}}
+    driver-class-name: {{ configuration.dbDriver}}
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: info,metrics,health
+          

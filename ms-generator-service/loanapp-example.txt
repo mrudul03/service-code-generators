@@ -1,0 +1,70 @@
+
+# Download and Start database
+pg_ctl -D /usr/local/var/postgres start
+pg_ctl -D /usr/local/var/postgres stop
+
+# Open postgres client
+psql postgres
+
+# Connect default database
+# user for postgres is Mrudul
+postgres=# \c postgres
+
+# Show all databases
+\l
+========================
+Open Dbeaver
+command + toolbar
+
+========================
+# Create user for new database
+create user loanappdbuser;
+alter user loanappdbuser with encrypted password 'ChangeMe';
+
+# Create database and grant privilege to user
+create database loanappdb;
+grant all privileges on database loanappdb to loanappdbuser;
+
+# Connect to newly created database
+\c loanappdb loanappdbuser;
+
+# Show tables
+\dt
+
+# Quit from Postgre Database
+\q
+========================
+{
+	"loantype":"Personal",
+	"loanstatus":"Approved",
+	"product":"SBILoan",
+	"customer":{
+		"firstname":"Test Loan",
+		"lastname":"Test Loan"
+	},
+	"bankdetail":{
+		"bankname": "SBI",
+		"accountnumber": "123123123"
+	},
+	"customeraddress":{
+		"address1": "Paradise 23",
+		"address2": "Baner Road",
+		"city": "Pune",
+		"state":"Maharashtra",
+		"country":"India"
+	},
+	"customercontact":{
+		"contactnumber": "9812398123",
+		"contacttype": "Mobile"
+	}
+	
+}
++++++++++++++++
+modified:   loanapp-example.txt
+	modified:   src/main/java/com/code/generator/ms/input/MicroserviceGenerator.java
+	modified:   src/main/java/com/code/generator/ms/input/Models.java
+	modified:   src/main/java/com/code/generator/ms/input/MsMetaData.java
+	modified:   src/main/java/com/code/generator/ms/model/DbModel.java
+	modified:   src/main/java/com/code/generator/ms/model/DbModelGenerator.java
+	modified:   src/main/resources/templates/V1.0__create_table.template
+

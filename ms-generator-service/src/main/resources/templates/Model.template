@@ -1,0 +1,56 @@
+package {{ model.packageName }};
+{% if model.idField is defined %}
+import org.springframework.data.annotation.Id;
+{% endif %}
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.util.UUID;
+import org.springframework.data.relational.core.mapping.Column;
+{% if model.dateDeclared is defined %}
+import java.util.Date;
+{% endif %}
+{% if model.setDeclared is defined %}
+import java.util.Set;
+import java.util.HashSet;
+{% endif %}
+{% if model.listDeclared is defined %}
+import java.util.List;
+import java.util.ArrayList;
+{% endif %}
+
+
+@Data
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
+public class {{ model.className }} {{ model.generatorId }} {
+	
+	{% if model.idField is defined %}
+	@Id
+	private {{model.idFieldType}} id;
+	{% endif %}
+	{%- for field in model.classfields  %}
+	
+	{% if field.isCollection is defined %}
+	@Builder.Default
+	private {{field.datatypeString}};
+	public void addItem({{field.camelCaseDatatype}} item) {
+		{% if field.pkType is defined %}
+        var itemWithId = item.toBuilder().id(UUID.randomUUID().toString()).build();
+        this.{{field.name}}.add(itemWithId);
+        {% else %}
+        this.{{field.name}}.add(item);
+        {% endif %}
+    }
+	{% else %}
+	{% if field.columnName is defined %}@Column("{{field.columnName}}") {% endif %}
+	private {{field.datatypeString}} {{ field.name }};
+	{% endif %}
+	
+	{%- endfor %}
+	
+
+}

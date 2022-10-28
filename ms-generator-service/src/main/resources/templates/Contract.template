@@ -1,0 +1,43 @@
+package {{ contract.packageName }};
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+{% if contract.dateDeclared is defined %}
+import java.util.Date;
+{% endif %}
+{% if contract.setDeclared is defined %}
+import java.util.Set;
+import java.util.HashSet;
+{% endif %}
+{% if contract.listDeclared is defined %}
+import java.util.List;
+import java.util.ArrayList;
+{% endif %}
+
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class {{ contract.className }} {
+
+	{% if contract.idField is defined %}
+	private {{contract.idFieldType}} id;
+	{% endif %}
+
+	
+	{%- for field in contract.classfields  %}
+	{% if field.isCollection is defined %}
+	@Builder.Default
+	private {{field.datatypeStringContract}};
+	public void addItem({{field.camelCaseContractDatatype}} item) {
+        this.{{field.name}}.add(item);
+    }
+	{% else %}
+	private {{field.datatypeStringContract}} {{ field.name }};
+	{% endif %}
+	
+	{%- endfor %}
+}

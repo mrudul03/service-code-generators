@@ -1,0 +1,42 @@
+package {{ servicetest.packageName }};
+
+import {{ servicetest.respositoryImport }};
+import {{ servicetest.invalidDataExceptionImport }};
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+@ExtendWith(MockitoExtension.class)
+public class {{ servicetest.serviceName }}Test {
+
+    @Mock
+    private {{ servicetest.repositoryName }} repository;
+    private {{ servicetest.serviceName }} service;
+
+    @BeforeEach
+    public void setup() {
+        service = new {{ servicetest.serviceName }}(repository);
+    }
+
+    @Test
+    @DisplayName("Should throw InvalidInputException")
+    public void shouldFailWhenGet{{servicetest.modelName}}WithNullId(){
+        assertThatThrownBy(() -> {
+            service.get{{servicetest.modelName}}(null);
+        }).isInstanceOf(InvalidInputException.class).hasMessage("Invalid id. Id can not be null.");
+    }
+
+    @Test
+    @DisplayName("Should throw InvalidInputException")
+    public void shouldFailWhenDelete{{servicetest.modelName}}WithNullId(){
+        assertThatThrownBy(() -> {
+            service.delete{{servicetest.modelName}}(null);
+        }).isInstanceOf(InvalidInputException.class).hasMessage("Invalid id. Id can not be null.");
+    }
+}
