@@ -1,0 +1,25 @@
+package {{serviceclient.packageName}};
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@FeignClient(value = "{{serviceclient.serviceName}}", 
+url = "{{serviceclient.serviceUrl}}",
+configuration = CustomFeignConfig.class)
+public interface {{serviceclient.className}} {
+
+	{%- for operation in serviceclient.operations  %}
+	
+	@RequestMapping(method = RequestMethod.{{operation.method}}, 
+			value = "{{operation.path}}", 
+			produces = "application/json")
+	{{operation.response}} {{operation.operationName}}(
+			{{operation.parametersAsString}});
+	
+	{%- endfor %}
+	
+	
+}

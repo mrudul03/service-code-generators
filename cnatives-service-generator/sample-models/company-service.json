@@ -1,0 +1,51 @@
+{
+    "configurations": {
+        "servicePort": "10045",
+        "serviceName": "fwy-company-service",
+        "schemaName": "fbmorderdb",
+        "contextPath": "audition"
+    },
+    "domains": [
+        {
+            "name": "Company",
+            "entitytype": "Aggregate",
+            "fields": [
+                { "name": "companyId", "datatype": "integer", "maxlength": "", "required": true },
+                { "name": "companyName", "datatype": "string", "maxlength": "50", "required": true }
+            ],
+            "operations": [                
+                {
+                    "method": "GET",
+                    "name": "getAllCompany",
+                    "description": "Returns a list of comapnies",
+                    "path": "/",
+                    "requestparams":[ 
+                        
+                    ],
+                    "response": "CompanyList",
+                    "responses": {
+                        "200": {"type": "CompanyList"}
+                    }
+                }
+            ]
+        }
+    ],
+    "domainforms": [
+        
+        {
+            "name": "CompanyResponse",
+            "entitytype": "Aggregate",
+            "fields":[
+                { "name": "companyId", "datatype": "integer", "maxlength": "", "required": true },
+                { "name": "companyName", "datatype": "string", "maxlength": "50", "required": true }
+            ]
+        },
+        {
+            "name": "CompanyList",
+            "entitytype": "Aggregate",
+            "fields":[
+                { "name": "companies", "datatype": "CompanyResponse", "relation": "onetomany" }
+            ]
+        }
+    ]
+}

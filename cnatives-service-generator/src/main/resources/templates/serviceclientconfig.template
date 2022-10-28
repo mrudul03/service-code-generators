@@ -1,0 +1,29 @@
+package {{serviceclient.packageName}};
+
+import org.springframework.context.annotation.Bean;
+
+import feign.okhttp.OkHttpClient;
+
+public class CustomFeignConfig {
+	
+//	@Bean
+//    public Contract feignContract() {
+//        return new feign.Contract.Default();
+//    }
+
+//    @Bean
+//    public BasicAuthRequestInterceptor authorizationHeaderInterceptor() {
+//        return new BasicAuthRequestInterceptor("user", "password");
+//    }
+	
+//	@Bean
+//    public AuthorizationHeaderInterceptor authorizationHeaderInterceptor() {
+//        return new AuthorizationHeaderInterceptor();
+//    }
+
+    @Bean
+    public OkHttpClient client() {
+        return new OkHttpClient();
+    }
+
+}

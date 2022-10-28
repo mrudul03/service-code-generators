@@ -1,0 +1,58 @@
+# Deploy as Google Cloud Run
+
+docker build -t gcr.io/gh-erp-project-3612/cnatives-service-generator:latest .
+docker run -d -p 8080:8080 gcr.io/gh-erp-project-3612/cnatives-service-generator:latest
+
+# Connect docker to google registry. This put your credentials for Cloud Registry into your Docker configuration to authenticate on GCP
+gcloud auth configure-docker
+
+# Enable the repository API for your project
+gcloud services enable containerregistry.googleapis.com
+# Enable the Cloud Run API.
+gcloud services enable run.googleapis.com
+
+# Push the image to the google registry
+docker push gcr.io/gh-erp-project-3612/cnatives-service-generator:latest
+
+# Create a service account for the Cloud Run service. This ensures the respect of the Principle of least privilege.
+gcloud iam service-accounts create cnatives-service-generator \
+	--description="Service account that executes the cnatives-service-generator application" \
+	--display-name="GCP Cloudrun Backend service account"
+
+//cnatives-service-generator@gh-erp-project-3612.iam.gserviceaccount.com
+gcloud projects add-iam-policy-binding gh-erp-project-3612 \
+     --member "serviceAccount:cnatives-service-generator@gh-erp-project-3612.iam.gserviceaccount.com" \
+     --role "roles/storage.objectAdmin"
+
+--Storage Admin
+gcloud projects add-iam-policy-binding gh-erp-project-3612 \
+     --member "serviceAccount:cnatives-service-generator@gh-erp-project-3612.iam.gserviceaccount.com" \
+     --role "roles/storage.admin"
+     
+--projects.serviceAccounts.signBlob
+--iam.serviceAccounts.signBlob 
+resourcemanager.projectIamAdmin  
+gcloud projects add-iam-policy-binding gh-erp-project-3612 \
+     --member "serviceAccount:cnatives-service-generator@gh-erp-project-3612.iam.gserviceaccount.com" \
+     --role "roles/resourcemanager.projectIamAdmin"   
+
+# Deploy on Cloud Run (it might take some minutes).
+cloudrun-deployment.yaml
+gcloud beta run services replace cloudrun-deployment.yaml \
+	--platform=managed \
+	--region=asia-south1
+
+
+# Allow public access to invoke your service.
+gcloud run services add-iam-policy-binding cnatives-service-generator \
+	--platform=managed \
+	--region=asia-south1 \
+	--member="allUsers" \
+	--role="roles/run.invoker"
+
+--------
+export GOOGLE_APPLICATION_CREDENTIALS="/Users/mrudul/Documents/workspace-cnatives-tools/gcp-creds/gh-erp-project-3612-a13531d5de0c.json"
+
+
+Test	
+https://cnatives-service-generator-gft2rk6fha-el.a.run.app

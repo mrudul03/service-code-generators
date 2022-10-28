@@ -1,0 +1,155 @@
+{
+    "configurations": {
+        "servicePort": "10060",
+        "serviceName": "fbm-wallettransaction-service",
+        "schemaName": "fbmwallettransctondb",
+        "contextPath": "wallet",
+        "databaseType": "mysql"
+    },
+    "domains": [
+        {
+            "name": "WalletTransaction",
+            "entitytype": "Aggregate",
+            "fields": [
+                { "name": "userId", "datatype": "int", "maxlength": "", "required": true },
+                { "name": "orderId", "datatype": "int", "maxlength": "", "required": true },
+                { "name": "transactionType", "datatype": "string", "maxlength": "15", "required": true },
+                { "name": "activityType", "datatype": "string", "maxlength": "15", "required": true },
+                { "name": "transactionDescription", "datatype": "string", "maxlength": "500", "required": true },
+                { "name": "status", "datatype": "string", "maxlength": "50", "required": true },
+                { "name": "insertedDate", "datatype": "date", "maxlength": "", "required": true },
+                { "name": "updatedDate", "datatype": "date", "maxlength": "", "required": false }
+                          
+            ],
+            "operations": [
+                {
+                    "method": "GET",
+                    "name": "getWalletTransaction",
+                    "description": "Returns transactions",
+                    "path": "/transations/{transactionId}",
+                    "pathparams":[ {"name":"transactionId", "type":"integer"}],
+                    "response": "WalletTransactionResponse",
+                    "responses": {
+                        "200": {"type": "WalletTransactionResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "GET",
+                    "name": "getAllWalletTransaction",
+                    "description": "Returns all transactions",
+                    "path": "/transations/all",
+                    "response": "WalletTransactionListResponse",
+                     "requestparams":[ 
+                        
+                    ],
+                    "responses": {
+                        "200": {"type": "WalletTransactionListResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "POST",
+                    "name": "addWalletTransaction",
+                    "description": "Adds a wallet transaction",
+                    "path": "/transations",
+                    "body": {  "type": "WalletTransactionRequest"},
+                    "requestparams":[ 
+                    ],
+                    "response": "WalletTransactionResponse",
+                    "responses": {
+                        "200": {"type": "WalletTransactionResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "PUT",
+                    "name": "updateWalletTransaction",
+                    "description": "Update a wallet transaction",
+                    "path": "/transations/{transactionId}",
+                    "pathparams":[ {"name":"transactionId", "type":"int"}],
+                    "body": {  "type": "WalletTransactionRequest"},
+                    "requestparams":[ 
+                    ],
+                    "response": "WalletTransactionResponse",
+                    "responses": {
+                        "200": {"type": "WalletTransactionResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "PUT",
+                    "name": "approveWalletTransaction",
+                    "description": "Approve a wallet transaction",
+                    "path": "/transations/{transactionId}/approve",
+                    "pathparams":[ {"name":"transactionId", "type":"int"}],
+                    "requestparams":[ 
+                    ],
+                    "response": "WalletTransactionResponse",
+                    "responses": {
+                        "200": {"type": "WalletTransactionResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "PUT",
+                    "name": "rejectWalletTransaction",
+                    "description": "Reject a wallet transaction",
+                    "path": "/transations/{transactionId}/approve",
+                    "pathparams":[ {"name":"transactionId", "type":"int"}],
+                    "requestparams":[ 
+                    ],
+                    "response": "WalletTransactionResponse",
+                    "responses": {
+                        "200": {"type": "WalletTransactionResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                }
+                
+            ]
+        }
+    ],
+    "domainforms": [
+        {
+            "name": "WalletTransactionRequest",
+            "entityName": "WalletTransaction",
+            "entitytype": "Aggregate",
+            "fields":[
+                { "name": "userId", "datatype": "int", "maxlength": "", "required": true },
+                { "name": "orderId", "datatype": "int", "maxlength": "", "required": true },
+                { "name": "transactionType", "datatype": "string", "maxlength": "15", "required": true },
+                { "name": "activityType", "datatype": "string", "maxlength": "15", "required": true },
+                { "name": "transactionDescription", "datatype": "string", "maxlength": "500", "required": true },
+                { "name": "status", "datatype": "string", "maxlength": "50", "required": true }
+            ]
+        },
+        {
+            "name": "WalletTransactionResponse",
+            "entityName": "WalletTransaction",
+            "entitytype": "Aggregate",
+            "fields":[
+                { "name": "userId", "datatype": "int", "maxlength": "", "required": true },
+                { "name": "orderId", "datatype": "int", "maxlength": "", "required": true },
+                { "name": "transactionType", "datatype": "string", "maxlength": "15", "required": true },
+                { "name": "activityType", "datatype": "string", "maxlength": "15", "required": true },
+                { "name": "transactionDescription", "datatype": "string", "maxlength": "500", "required": true },
+                { "name": "status", "datatype": "string", "maxlength": "50", "required": true },
+                { "name": "insertedDate", "datatype": "date", "maxlength": "", "required": true },
+                { "name": "updatedDate", "datatype": "date", "maxlength": "", "required": true }
+            ]
+        },
+        {
+            "name": "WalletTransactionListResponse",
+            "entitytype": "Aggregate",
+            "fields":[
+                { "name": "transaction", "datatype": "WalletTransactionResponse", "maxlength": "", "required": true, "relation": "onetomany" }
+            ]
+        }
+    ]
+}

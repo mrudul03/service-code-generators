@@ -1,0 +1,27 @@
+package {{ service.packageName }};
+
+import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
+import {{ service.contractImport }};
+
+
+@Service
+@Slf4j
+public class {{ service.className }} {
+	
+	private {{service.repository}} {{ service.repositoryVariable}};
+	public {{ service.className }}({{service.repository}} {{ service.repositoryVariable}}){
+		this.{{ service.repositoryVariable}} = {{ service.repositoryVariable}};
+	}
+	
+	{%- for operation in service.operations  %}
+	
+	public {{operation.response}} {{operation.operationName}}({{operation.parametersAsString}}) {
+		
+		//TODO
+		return null;
+	}
+	
+	{%- endfor %}
+	
+}

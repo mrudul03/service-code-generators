@@ -1,0 +1,175 @@
+{
+    "configurations": {
+        "servicePort": "10013",
+        "serviceName": "fbm-hrcompany-service",
+        "schemaName": "hrcompanydb",
+        "contextPath": "hrcompany"
+    },
+    "domains": [
+        {
+            "name": "HrCompany",
+            "entitytype": "Aggregate",
+            "fields": [
+                { "name": "companyName", "datatype": "string", "maxlength": "250", "required": true },
+                { "name": "localTimeZone", "datatype": "string", "maxlength": "50","required": true },
+                { "name": "localCurrency", "datatype": "string", "maxlength": "3", "required": true },
+                { "name": "cityId", "datatype": "int", "maxlength": "", "required": true },
+                { "name": "countryId", "datatype": "int", "maxlength": "", "required": true },
+                { "name": "contactPerson", "datatype": "ContactPerson", "maxlength": "", "required": true, "relation": "onetoone" },
+                { "name": "emails", "datatype": "Email", "maxlength": "", "required": true, "relation": "onetomany" },
+                { "name": "isDeleted", "datatype": "boolean", "maxlength": "", "required": false },
+                { "name": "insertedUserId", "datatype": "long", "maxlength": "", "required": true },
+                { "name": "insertedDate", "datatype": "date", "maxlength": "", "required": true },
+                { "name": "updatedUserId", "datatype": "long", "maxlength": "", "required": false },
+                { "name": "updatedDate", "datatype": "date", "maxlength": "", "required": false }           
+            ],
+            "operations": [
+                {
+                    "method": "GET",
+                    "name": "getHrCompany",
+                    "description": "Returns infomation about specific HrCompany",
+                    "path": "/{hrCompanyId}",
+                    "pathparams":[ {"name":"hrCompanyId", "type":"long"}],
+                    "response": "HrCompanyResponse",
+                    "responses": {
+                        "200": {"type": "HrCompanyResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                
+                {
+                    "method": "POST",
+                    "name": "addHrCompany",
+                    "description": "creates HrCompany",
+                    "path": "/",
+                    "body": { "type": "HrCompanyRequest"},
+                    "response": "HrCompanyResponse",
+                    "responses": {
+                        "201": {"type": "HrCompanyResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "PUT",
+                    "name": "deactivateHrCompany",
+                    "description": "updates HrCompany for is deleted to true",
+                    "path": "/{hrCompanyId}/deactivate",
+                    "pathparams":[ {"name":"hrCompanyId", "type":"long"}],
+                    "response": "HrCompanyResponse",
+                    "responses": {
+                        "200": {"type": "HrCompanyResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "PUT",
+                    "name": "activateHrCompany",
+                    "description": "updates HrCompany for is deleted to false",
+                    "path": "/{hrCompanyId}/activate",
+                    "pathparams":[ {"name":"hrCompanyId", "type":"long"}],
+                    "response": "HrCompanyResponse",
+                    "responses": {
+                        "200": {"type": "HrCompanyResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "PUT",
+                    "name": "updateHrCompany",
+                    "description": "updates HrCompany ",
+                    "path": "/{hrCompanyId}",
+                    "pathparams":[ {"name":"hrCompanyId", "type":"long"}],
+                    "body": { "type": "HrCompanyRequest"},
+                    "response": "HrCompanyResponse",
+                    "responses": {
+                        "200": {"type": "HrCompanyResponse"},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                },
+                {
+                    "method": "DELETE",
+                    "name": "deleteHrCompany",
+                    "description": "deletes HrCompany ",
+                    "path": "/{hrCompanyId}",
+                    "pathparams":[ {"name":"hrCompanyId", "type":"long"}],
+                    "responses": {
+                        "200": {"type": ""},
+                        "404": {"type": "no_data_error"},
+                        "400": {"type": "invalid_input_error"}
+                    }
+                }
+            ]
+        },
+        {
+            "name": "ContactPerson",
+            "entityName": "HrCompany",
+            "entitytype": "ChildEntity",
+            "fields": [
+                { "name": "firstName", "datatype": "string", "maxlength": "250", "required": true },
+                { "name": "lastName", "datatype": "string", "maxlength": "50","required": true }        
+            ]
+        },
+        {
+            "name": "Email",
+            "entityName": "HrCompany",
+            "entitytype": "ChildEntity",
+            "fields": [
+                { "name": "type", "datatype": "string", "maxlength": "20", "required": true },
+                { "name": "emailaddress", "datatype": "string", "maxlength": "50","required": true }        
+            ]
+        }
+    ],
+    "domainforms": [
+        {
+            "name": "HrCompanyRequest",
+            "entityName": "HrCompany",
+            "entitytype": "Aggregate",
+            "fields":[
+                { "name": "companyName", "datatype": "string", "required": true },
+                { "name": "localTimeZone", "datatype": "string", "required": true },
+                { "name": "localCurrency", "datatype": "string", "required": true },
+                { "name": "cityId", "datatype": "int", "required": true },
+                { "name": "countryId", "datatype": "int", "required": true },
+                { "name": "contactPerson", "datatype": "ContactPerson", "relation": "onetoone" },
+                { "name": "emails", "datatype": "Email", "relation": "onetomany" }
+            ]
+        },
+        {
+            "name": "HrCompanyResponse",
+            "entityName": "HrCompany",
+            "entitytype": "Aggregate",
+            "fields":[
+                { "name": "companyName", "datatype": "string" },
+                { "name": "localTimeZone", "datatype": "string" },
+                { "name": "localCurrency", "datatype": "string" },
+                { "name": "cityId", "datatype": "int" },
+                { "name": "countryId", "datatype": "int" },
+                { "name": "contactPerson", "datatype": "ContactPerson", "relation": "onetoone" },
+                { "name": "emails", "datatype": "Email", "relation": "onetomany" }
+            ]
+        },
+        {
+            "name": "Email",
+            "entityName": "HrCompany",
+            "entitytype": "ChildEntity",
+            "fields": [
+                { "name": "type", "datatype": "string", "maxlength": "20", "required": true },
+                { "name": "emailaddress", "datatype": "string", "maxlength": "50","required": true }        
+            ]
+        },
+        {
+            "name": "ContactPerson",
+            "entityName": "HrCompany",
+            "entitytype": "ChildEntity",
+            "fields": [
+                { "name": "firstName", "datatype": "string", "maxlength": "250", "required": true },
+                { "name": "lastName", "datatype": "string", "maxlength": "50","required": true }       
+            ]
+        }
+    ]
+}

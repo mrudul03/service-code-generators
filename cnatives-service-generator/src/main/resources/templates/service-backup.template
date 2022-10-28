@@ -1,0 +1,48 @@
+package {{ service.packageName }};
+
+import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import {{ service.contractImport }};
+
+
+@Service
+@Slf4j
+public class {{ service.className }} {
+	
+	private {{service.repository}} repository;
+	public {{ service.className }}({{service.repository}} repository){
+		this.repository = repository;
+	}
+	
+	{%- for operation in service.operations  %}
+	
+	public {{operation.response}} {{operation.operationName}}({%- for parameter in operation.parameters %}
+			{{parameter.paramtype}} {{parameter.paramvariable}}, {%- endfor %}
+			Long userId) {
+		{% if operation.post is defined %}
+		{{operation.response}} {{operation.responseVariable}} = {{operation.response}}.builder().buildFrom({{operation.saveRequestVariable}}).build();
+		{{operation.responseVariable}} = repository.save({{operation.responseVariable}});
+		return {{operation.responseVariable}};
+		{% elif operation.putwithbody is defined %}
+		if(null == {{operation.idParamVariable}}) {
+			throw new InvalidInputException("Invalid id. Id can not be null.");
+		}
+		{{operation.response}} {{operation.responseVariable}} = {{operation.response}}.builder().buildFrom({{operation.saveRequestVariable}}).build({{operation.idParamVariable}});
+		{{operation.responseVariable}} = repository.save({{operation.responseVariable}});
+		return {{operation.responseVariable}};
+		{% elif operation.getwithid is defined %}
+		Optional<{{operation.response}}> optional = repository.findById({{operation.idParamVariable}});
+		if(optional.isPresent()) {
+			return optional.get();
+		}
+		else {
+			throw new NoDataFoundException("No data found with id::"+{{operation.idParamVariable}});
+		}
+		{% else %}
+		//TODO
+		return null;{% endif %}
+	}
+	
+	{%- endfor %}
+	
+}

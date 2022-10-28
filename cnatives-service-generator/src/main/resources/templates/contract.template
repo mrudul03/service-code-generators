@@ -1,0 +1,27 @@
+package {{ contract.packageName }};
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+{% if contract.dateDeclared is defined %}
+import java.sql.Timestamp;
+import java.util.Date;
+{% endif %}
+{% if contract.setDeclared is defined %}
+import java.util.Set;
+import java.util.HashSet;
+{% endif %}
+{% if contract.listDeclared is defined %}
+import java.util.List;
+import java.util.ArrayList;
+{% endif %}
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class {{ contract.className }} {
+	
+	{%- for field in contract.classfields  %}
+	private {{field.datatypeClassName}} {{ field.name }};	
+	{%- endfor %}
+	
+}

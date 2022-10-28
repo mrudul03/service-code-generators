@@ -1,0 +1,40 @@
+package {{ controller.packageName }};
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import lombok.extern.slf4j.Slf4j;
+
+import {{ controller.domainImports }};
+import {{ controller.contractImports }};
+
+
+@RestController
+@RequestMapping(value="/api")
+@Slf4j
+public class {{ controller.className }} {
+	
+	private {{controller.serviceName}} {{controller.serviceVariableName}};
+	public {{ controller.className }}({{controller.serviceName}} {{controller.serviceVariableName}}){
+		this.{{controller.serviceVariableName}} = {{controller.serviceVariableName}};
+	}
+	
+	{%- for operation in controller.operations  %}
+	
+	@{{ operation.mapping}}(value="{{operation.path}}", produces=APPLICATION_JSON_VALUE, consumes=APPLICATION_JSON_VALUE)
+	public ResponseEntity<{{operation.response}}> {{operation.operationName}}({{operation.parametersAsString}}) {
+		
+		return ResponseEntity.ok({{operation.returnresponse}});
+	}
+	
+	{%- endfor %}
+	
+}

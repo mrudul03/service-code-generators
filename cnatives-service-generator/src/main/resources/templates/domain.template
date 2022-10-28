@@ -1,0 +1,91 @@
+package {{ domain.packageName }};
+{% if domain.idField is defined %}
+import org.springframework.data.annotation.Id;
+import lombok.Setter;
+{% endif %}
+import lombok.Getter;
+import org.springframework.data.relational.core.mapping.Column;
+{% if domain.dateDeclared is defined %}import java.sql.Timestamp;{% endif %}
+{% if domain.setDeclared is defined %}
+import java.util.Set;
+import java.util.HashSet;
+{% endif %}
+import java.util.List;
+import java.util.ArrayList;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class {{ domain.className }} {
+    
+    {% if domain.idField is defined %}
+    @Getter
+    @Setter
+    @Id
+    @Column("{{domain.idColumnName}}")
+    private {{domain.idFieldType}} {{ domain.idFieldName}};
+    {% endif %}
+    {%- for field in domain.classfields  %}
+    
+    {% if field.columnName is defined %}@Column("{{field.columnName}}") {% endif %}
+    @Getter
+    private {{field.datatypeClassName}} {{ field.name }};  
+    {%- endfor %}
+    
+    protected {{ domain.className }}(){}
+    
+    public static {{ domain.className }}Builder builder() {
+        return new {{ domain.className }}Builder();
+    }
+    
+    public static class {{ domain.className }}Builder {
+    
+        {%- for field in domain.classfields  %}
+        
+        private {{field.datatypeClassName}} {{ field.name }};
+        public {{ domain.className }}Builder with{{ field.capitalizedName}}(final {{field.datatypeClassName}} {{ field.name }}) {
+            this.{{ field.name }} = {{ field.name }};
+            return this;
+        }
+        {%- endfor %}
+        
+        public {{ domain.className }} build() {
+            {{ domain.className }} {{ domain.classNameVariable}} = new {{ domain.className }}();
+            {%- for field in domain.classfields  %}
+            {{ domain.classNameVariable}}.{{ field.name }} = this.{{ field.name }};
+            {%- endfor %}
+            return {{ domain.classNameVariable}};
+        }
+        
+        {% if domain.idField is defined %}
+        public {{ domain.className }} build({{domain.idFieldType}} {{ domain.idFieldName}}) {
+            {{ domain.className }} {{ domain.classNameVariable}} = this.build();
+            {{ domain.classNameVariable}}.{{ domain.idFieldName}} = {{ domain.idFieldName}};
+            return {{ domain.classNameVariable}};
+        }
+        {% endif %}
+
+        private List<String> validate(){
+            List<String> errors = new ArrayList<>();
+            // validate common fields
+            
+            log.info("Validated with errors count::"+errors.size());
+            return errors;
+        }
+        
+        private boolean isValidField(String field) {
+            boolean bValid = true;
+            if(null == field || field.isBlank() || field.isEmpty()) {
+                bValid = false;
+            }
+            return bValid;
+        }
+        
+        private String formatErrorsAsString(List<String> errors) {
+            StringBuilder sbErrors = new StringBuilder();
+            errors.forEach(sbErrors::append);
+            return sbErrors.toString();
+        }
+        
+   }
+   
+}
