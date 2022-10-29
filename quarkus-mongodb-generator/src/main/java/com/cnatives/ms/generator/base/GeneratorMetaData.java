@@ -43,8 +43,20 @@ public class GeneratorMetaData {
 			List<DomainModel> domainModels, 
 			String customerId) {
 		this.customerId = customerId;
-		this.basePackageName = configurations.getBasePackage().toLowerCase();
-		this.baseDirName = this.createBaseFolderName(configurations.getBasePackage());
+		if(null != configurations.getBasePackage()) {
+			this.basePackageName = configurations.getBasePackage().toLowerCase();
+		}
+		else {
+			this.basePackageName = "com.service";
+		}
+		
+		if(null != configurations.getBasePackage()) {
+			this.baseDirName = this.createBaseFolderName(configurations.getBasePackage());this.basePackageName = configurations.getBasePackage().toLowerCase();
+		}
+		else {
+			this.baseDirName = this.createBaseFolderName("com.service");
+		}
+		
 		this.initializePathConfigurations(configurations, domainModels, customerId);
 		this.initializeDatabaseConfigurations(configurations);
 		this.initializeServiceConfigurations(configurations);
