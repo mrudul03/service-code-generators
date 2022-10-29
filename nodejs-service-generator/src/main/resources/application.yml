@@ -1,0 +1,20 @@
+server:
+  port: 10000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ["health", "info", "metrics", "prometheus", "bindings", "beans", "env", "loggers", "streamsbindings"]
+    
+spring:
+  application:
+    name: nodejs-service-generator
+        
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+
