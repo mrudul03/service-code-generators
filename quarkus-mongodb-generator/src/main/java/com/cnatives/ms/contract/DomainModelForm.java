@@ -8,7 +8,7 @@ import lombok.Data;
 public class DomainModelForm {
 	
 	private String name;
-	private String domainName;
+	private String parententity;
 	private String entitytype;
 	private List<Field> fields;
 

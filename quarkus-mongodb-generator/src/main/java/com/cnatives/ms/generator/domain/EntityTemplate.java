@@ -59,7 +59,7 @@ public class EntityTemplate extends BaseClass {
 	
 	private void updateTemplateDetails(final GeneratorMetaData metaData, DomainModel domainModel) {
 		this.templateName = DOMAINENTITY_TEMPLATE;
-		this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModel.getDomainName())+DOMAIN+"/";
+		this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModel.getParententity())+DOMAIN+"/";
 		this.fileExtension = FILE_EXTENSION;
 		this.bindingName = "domainentity";
 	}
@@ -70,7 +70,7 @@ public class EntityTemplate extends BaseClass {
 			final GeneratorMetaData metaData) {
 		
 		//this.packageName = metaData.getBasePackageName()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-		this.packageName = metaData.getBasePackageName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+		this.packageName = metaData.getBasePackageName()+"."+domainModel.getParententity().toLowerCase()+"."+DOMAIN;
 		
 //		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
 //			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;

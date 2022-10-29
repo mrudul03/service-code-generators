@@ -11,7 +11,7 @@
         {
             "name": "HrCompany",
             "entitytype": "Aggregate",
-            "domainName": "HrCompany",
+            "parententity": "HrCompany",
             "fields": [
                 { "name": "companyName", "datatype": "string", "maxlength": "250", "required": true },
                 { "name": "localTimeZone", "datatype": "string", "maxlength": "50","required": true },
@@ -111,7 +111,7 @@
         {
             "name": "ContactPerson",
             "entitytype": "ChildEntity",
-            "domainName": "HrCompany",
+            "parententity": "HrCompany",
             "fields": [
                 { "name": "firstName", "datatype": "string", "maxlength": "250", "required": true },
                 { "name": "lastName", "datatype": "string", "maxlength": "50","required": true }        
@@ -120,7 +120,7 @@
         {
             "name": "Email",
             "entitytype": "ChildEntity",
-            "domainName": "HrCompany",
+            "parententity": "HrCompany",
             "fields": [
                 { "name": "type", "datatype": "string", "maxlength": "20", "required": true },
                 { "name": "emailaddress", "datatype": "string", "maxlength": "50","required": true }        
@@ -131,7 +131,7 @@
         {
             "name": "HrCompanyRequest",
             "entitytype": "Aggregate",
-            "domainName": "HrCompany",
+            "parententity": "HrCompany",
             "fields":[
                 { "name": "companyName", "datatype": "string", "required": true },
                 { "name": "localTimeZone", "datatype": "string", "required": true },
@@ -145,7 +145,7 @@
         {
             "name": "HrCompanyResponse",
             "entitytype": "Aggregate",
-            "domainName": "HrCompany",
+            "parententity": "HrCompany",
             "fields":[
                 { "name": "companyName", "datatype": "string" },
                 { "name": "localTimeZone", "datatype": "string" },
@@ -159,7 +159,7 @@
         {
             "name": "EmailDto",
             "entitytype": "ChildEntity",
-            "domainName": "HrCompany",
+            "parententity": "HrCompany",
             "fields": [
                 { "name": "type", "datatype": "string", "maxlength": "20", "required": true },
                 { "name": "emailaddress", "datatype": "string", "maxlength": "50","required": true }        
@@ -168,7 +168,7 @@
         {
             "name": "ContactPersonDto",
             "entitytype": "ChildEntity",
-            "domainName": "HrCompany",
+            "parententity": "HrCompany",
             "fields": [
                 { "name": "firstName", "datatype": "string", "maxlength": "250", "required": true },
                 { "name": "lastName", "datatype": "string", "maxlength": "50","required": true }       

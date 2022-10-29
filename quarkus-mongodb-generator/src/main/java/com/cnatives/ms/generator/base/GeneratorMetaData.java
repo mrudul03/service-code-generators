@@ -78,7 +78,6 @@ public class GeneratorMetaData {
 	}
 	
 	private void initializeDatabaseConfigurations(Configurations configurations) {
-		
 		pkDataType = "Long";
 		collectionClazzName = "List";
 		this.pkClazzName = Constants.STRING;

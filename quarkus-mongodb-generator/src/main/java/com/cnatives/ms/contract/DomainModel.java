@@ -9,7 +9,7 @@ import lombok.Data;
 public class DomainModel {
 	
 	private String name;
-	private String domainName;
+	private String parententity;
 	private String entitytype;
 	private List<Field> fields;
 	private List<DomainModelOperation> operations = new ArrayList<>();

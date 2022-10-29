@@ -51,17 +51,17 @@ public class ControllerTemplate extends BaseClass {
 		this.bindingName = CONTROLLER.toLowerCase();
 		this.fileExtension = FILE_EXTENSION;
 		//this.codeGenDirPath = metaData.getCodeGenDirPath() +CONTROLLER.toLowerCase()+ "/";
-		this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModel.getDomainName())+CONTROLLER.toLowerCase()+ "/";
+		this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModel.getParententity())+CONTROLLER.toLowerCase()+ "/";
 	}
 	
 	private void updateClassImports(GeneratorMetaData metaData, DomainModel domainModel) {
-		this.domainImports = metaData.getBasePackageName() + "." + domainModel.getDomainName().toLowerCase()+ "."+DOMAIN+".*";
-		this.contractImports = metaData.getBasePackageName() + "." + domainModel.getDomainName().toLowerCase()+ "."+CONTRACT+".*";
+		this.domainImports = metaData.getBasePackageName() + "." + domainModel.getParententity().toLowerCase()+ "."+DOMAIN+".*";
+		this.contractImports = metaData.getBasePackageName() + "." + domainModel.getParententity().toLowerCase()+ "."+CONTRACT+".*";
 	}
 	
 	private void updateClassDetails(GeneratorMetaData metaData, DomainModel domainModel) {
 		
-		this.packageName = metaData.getBasePackageName() +"." + domainModel.getDomainName().toLowerCase()+ "."+CONTROLLER.toLowerCase();
+		this.packageName = metaData.getBasePackageName() +"." + domainModel.getParententity().toLowerCase()+ "."+CONTROLLER.toLowerCase();
 //		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
 //			this.packageName = metaData.getBasePackage() + "." + domainModel.getDomainName().toLowerCase()+ "."+CONTROLLER.toLowerCase();
 //		}
@@ -69,7 +69,7 @@ public class ControllerTemplate extends BaseClass {
 //			this.packageName = metaData.getBasePackage() +"."+metaData.getServiceBaseName()+ "." + domainModel.getDomainName().toLowerCase()+ "."+CONTROLLER.toLowerCase();
 //		}
 		
-		this.serviceName = domainModel.getDomainName() + SERVICE;
+		this.serviceName = domainModel.getParententity() + SERVICE;
 		this.serviceVariableName = this.createVariable(this.serviceName);
 		this.className = domainModel.getName() + CONTROLLER;
 		this.idType = this.createVariable(metaData.getDomainName()) + ID;

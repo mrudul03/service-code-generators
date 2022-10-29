@@ -42,8 +42,7 @@ public class ServiceTemplate extends BaseClass{
 	private void updateTemplateDetails(final GeneratorMetaData metaData, final DomainModel domainModel) {
 		this.templateDir = Constants.TEMPLATES_DIR;
 		this.templateName = SERVICE_TEMPLATE;
-		//this.codeGenDirPath = metaData.getCodeGenDirPath()+DOMAIN+Constants.PATH_SEPARATOR;
-		this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModel.getDomainName())+DOMAIN+Constants.PATH_SEPARATOR;
+		this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModel.getParententity())+DOMAIN+Constants.PATH_SEPARATOR;
 		this.fileExtension = FILE_EXTENSION;
 		this.bindingName = SERVICE.toLowerCase();
 	}
@@ -55,26 +54,11 @@ public class ServiceTemplate extends BaseClass{
 		
 		this.className = domainModel.getName()+SERVICE;
 		
-//		this.packageName = metaData.getBasePackageName()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-		this.packageName = metaData.getBasePackageName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-//		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
-//			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-//		}
-//		else {
-//			this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-//		}
-		
+		this.packageName = metaData.getBasePackageName()+"."+domainModel.getParententity().toLowerCase()+"."+DOMAIN;
 		this.repository = domainModel.getName()+REPOSITORY;
 		this.repositoryVariable = createVariable(this.repository);
 		
 		this.contractImport = metaData.getBasePackageName()+"."+metaData.getDomainName().toLowerCase()+".contract.*";
-		
-//		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
-//			this.contractImport = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+".contract.*";
-//		}
-//		else {
-//			this.contractImport = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+metaData.getDomainName().toLowerCase()+".contract.*";
-//		}
 		this.exceptionImport = metaData.getBasePackageName()+".exception.*";
 		
 		List<DomainModelOperation> domainOperations = domainModel.getOperations();

@@ -32,8 +32,7 @@ public class RepositoryTemplate extends BaseClass {
 	
 	private void updateTemplateDetails(final GeneratorMetaData metaData, final DomainModel domainModel) {
 		this.templateName = TEMPLATE_NAME;
-		//this.codeGenDirPath = metaData.getCodeGenDirPath()+DOMAIN+"/";
-		this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModel.getDomainName())+DOMAIN+"/";
+		this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModel.getParententity())+DOMAIN+"/";
 		this.fileExtension = FILE_EXTENSION;
 		this.bindingName = REPOSITORY.toLowerCase();
 	}
@@ -43,15 +42,7 @@ public class RepositoryTemplate extends BaseClass {
 			final DomainModel domainModel,
 			final GeneratorMetaData metaData) {
 		
-		//this.packageName = metaData.getBasePackageName()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-		this.packageName = metaData.getBasePackageName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-//		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
-//			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-//		}
-//		else {
-//			this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-//		}
-		
+		this.packageName = metaData.getBasePackageName()+"."+domainModel.getParententity().toLowerCase()+"."+DOMAIN;
 		this.className = domainModel.getName()+REPOSITORY;
 		this.domainClassName = domainModel.getName();
 		this.domainEntityClassName = domainModel.getName()+"Entity";

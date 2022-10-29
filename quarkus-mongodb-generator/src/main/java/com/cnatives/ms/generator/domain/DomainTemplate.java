@@ -72,7 +72,7 @@ public class DomainTemplate extends BaseClass {
 	private void updateTemplateDetails(final GeneratorMetaData metaData, 
 			final DomainModel domainModel) {
 		this.templateName = DOMAIN_TEMPLATE;
-		this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModel.getDomainName())+DOMAIN+"/";
+		this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModel.getParententity())+DOMAIN+"/";
 		this.fileExtension = FILE_EXTENSION;
 		this.bindingName = DOMAIN;
 	}
@@ -82,7 +82,7 @@ public class DomainTemplate extends BaseClass {
 			final DomainModel domainModel,
 			final GeneratorMetaData metaData) {
 		
-		this.packageName = metaData.getBasePackageName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
+		this.packageName = metaData.getBasePackageName()+"."+domainModel.getParententity().toLowerCase()+"."+DOMAIN;
 //		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
 //			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
 //		}
@@ -104,7 +104,7 @@ public class DomainTemplate extends BaseClass {
 			this.idFieldType = "ObjectId";
 		}
 		//this.contractImport = "import "+metaData.getBasePackageName()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+"contract.*";
-		this.contractImport = "import "+metaData.getBasePackageName()+"."+domainModel.getDomainName().toLowerCase()+"."+"contract.*";
+		this.contractImport = "import "+metaData.getBasePackageName()+"."+domainModel.getParententity().toLowerCase()+"."+"contract.*";
 		this.entityName = domainModel.getName()+"Entity";
 	}
 	
