@@ -4,14 +4,13 @@
         "serviceName": "fbm-content-service",
         "schemaName": "fbmcontentdb",
         "contextPath": "content",
-        "databaseType": "mongo",
         "basePackage": "com.service.content"
     },
     "domains": [
         {
             "name": "FaqBannerContent",
             "entitytype": "Aggregate",
-            "domainName": "FaqBannerContent",
+            "parententity": "FaqBannerContent",
             "fields": [
                 { "name": "bannerImage", "datatype": "string", "maxlength": "255", "required": false },
                 { "name": "headerText", "datatype": "string", "maxlength": "255", "required": false },
@@ -40,7 +39,7 @@
         {
             "name": "FaqCategoryMaster",
             "entitytype": "Aggregate",
-            "domainName": "FaqCategoryMaster",
+            "parententity": "FaqCategoryMaster",
             "fields": [
                 { "name": "categoryName", "datatype": "string", "maxlength": "100", "required": false },
                 { "name": "iconImage", "datatype": "string", "maxlength": "255", "required": false },
@@ -66,7 +65,7 @@
         {
             "name": "FaqQuestionAnswer",
             "entitytype": "Aggregate",
-            "domainName": "FaqQuestionAnswer",
+            "parententity": "FaqQuestionAnswer",
             "fields": [
                 { "name": "categoryId", "datatype": "integer", "maxlength": "", "required": true },
                 { "name": "subCategoryId", "datatype": "integer", "maxlength": "", "required": false },
@@ -97,7 +96,7 @@
         {
             "name": "FaqBannerContentResponse",
             "entitytype": "Aggregate",
-            "domainName": "FaqBannerContent",
+            "parententity": "FaqBannerContent",
             "fields":[
                 { "name": "bannerImage", "datatype": "string", "maxlength": "255", "required": false },
                 { "name": "headerText", "datatype": "string", "maxlength": "255", "required": false },
@@ -110,7 +109,7 @@
         {
             "name": "FaqCategoryMasterResponse",
             "entitytype": "Aggregate",
-            "domainName": "FaqCategoryMaster",
+            "parententity": "FaqCategoryMaster",
             "fields":[
                 { "name": "categoryName", "datatype": "string", "maxlength": "100", "required": false },
                 { "name": "iconImage", "datatype": "string", "maxlength": "255", "required": false },
@@ -120,7 +119,7 @@
         },
         {
             "name": "FaqQuestionAnswerResponse",
-            "domainName": "FaqQuestionAnswer",
+            "parententity": "FaqQuestionAnswer",
             "entitytype": "Aggregate",
             "fields":[
                 { "name": "categoryId", "datatype": "integer", "maxlength": "", "required": true },

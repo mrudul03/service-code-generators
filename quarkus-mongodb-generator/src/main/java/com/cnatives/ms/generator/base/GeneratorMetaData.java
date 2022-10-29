@@ -24,8 +24,8 @@ public class GeneratorMetaData {
 	private String pkClazzName;
 	
 	private String codeGenDirPath;
-	private String collectionClazzName;
-	private String databaseType;
+	//private String collectionClazzName;
+	//private String databaseType;
 	private String pkDataType;
 	
 	private String serviceGenerationDir;
@@ -89,13 +89,6 @@ public class GeneratorMetaData {
 		}
 	}
 	
-	private void initializeDatabaseConfigurations(Configurations configurations) {
-		pkDataType = "Long";
-		collectionClazzName = "List";
-		this.pkClazzName = Constants.STRING;
-		this.databaseType = "mongo";
-	}
-	
 	public String getServiceCodeGenDirPath(String domainName) {
 		return this.basePath+PATH_SEPARATOR
 				+this.customerId+PATH_SEPARATOR
@@ -113,32 +106,31 @@ public class GeneratorMetaData {
 			List<DomainModel> domainModels,
 			String customerId) {
 		
-		if(null != configurations.getServiceBaseName()) {
-			this.domainName = configurations.getServiceBaseName();
-		}
-		else {
-			this.domainName = this.getAggregateModelName(domainModels);
-		}
+		this.domainName = this.getAggregateModelName(domainModels);
 		this.serviceName = configurations.getServiceName();
+		
+		
 		this.propertyFilePath = this.basePath+PATH_SEPARATOR+customerId+
 				PATH_SEPARATOR+configurations.getServiceName()+"/src/main/resources/";
-		
-		this.codeGenDirPath = this.basePath+PATH_SEPARATOR
-			+this.customerId+PATH_SEPARATOR
-			+this.serviceName+"/src/main/java/"+this.baseDirName;
-		
-		//------
-		
-		this.serviceGenerationDir = this.basePath+PATH_SEPARATOR+customerId+
-				PATH_SEPARATOR+configurations.getServiceName();
 		
 		this.pomFilePath = this.basePath+PATH_SEPARATOR+customerId+
 				PATH_SEPARATOR+configurations.getServiceName()+PATH_SEPARATOR;
 		
-		//------
+		this.codeGenDirPath = this.basePath+PATH_SEPARATOR
+				+this.customerId+PATH_SEPARATOR
+				+this.serviceName+"/src/main/java/"+this.baseDirName;
+		
+		this.serviceGenerationDir = this.basePath+PATH_SEPARATOR+customerId+
+				PATH_SEPARATOR+configurations.getServiceName();
 		
 		this.serviceArchiveFilename = archivebasePath+PATH_SEPARATOR+customerId+
-				PATH_SEPARATOR+this.serviceName+"-archive.zip";;
+				PATH_SEPARATOR+this.serviceName+"-archive.zip";
+		
+	}
+	
+	private void initializeDatabaseConfigurations(Configurations configurations) {
+		pkDataType = "String";
+		this.pkClazzName = Constants.STRING;
 	}
 	
 	private void initializeServiceConfigurations(Configurations configurations) {

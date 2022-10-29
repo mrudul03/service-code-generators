@@ -26,21 +26,11 @@ public class ConfigGenerator {
 		this.generatePropertiesFiles(metaData, configurations);
 	}
 	
-	
 	private void generatePom(GeneratorMetaData metaData, final Configurations configurations) {
 		PomTemplate pomTemplate = PomTemplate.builder().buildFrom(metaData);
 		codeGenerator.generateCode(pomTemplate);
 		log.info("Generated POM");
 	}
-	
-//	private void generateYamlFiles(final GeneratorMetaData metaData, Configurations configurations) {
-//		YamlTemplate yamlFile = new YamlTemplate();
-//		yamlFile.initialize(configurations);
-//		yamlFile.setCodeGenDirPath(metaData.getPropertyFilePath());
-//		yamlFile.setTemplateDir("templates");
-//		yamlFile.generateCode(template);
-//		log.info("Generated YAML");
-//	}
 	
 	private void generatePropertiesFiles(final GeneratorMetaData metaData, Configurations configurations) {
 		PropertiesTemplate propertiesFile = new PropertiesTemplate();

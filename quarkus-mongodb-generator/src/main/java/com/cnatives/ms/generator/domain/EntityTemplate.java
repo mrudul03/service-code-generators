@@ -100,7 +100,7 @@ public class EntityTemplate extends BaseClass {
 		List<ClassField> classFields = new ArrayList<>();
 		
 		for(Field field:domainModel.getFields()) {
-			ClassField classField = ClassField.builder().buildFrom(field, metaData.getPkClazzName(), metaData.getDatabaseType());
+			ClassField classField = ClassField.builder().buildFrom(field, metaData.getPkClazzName());
 			classFields.add(classField);
 		}
 		return classFields;

@@ -65,7 +65,7 @@ public class ClassField {
 				" datatypeClass:"+ datatypeClassName;
 	}
 	
-	private void updateClassField(Field field, final String pkClazzName, final String databaseType) {
+	private void updateClassField(Field field, final String pkClazzName) {
 		this.datatype = field.getDatatype();
 		this.name = field.getName();
 		this.maxlength = field.getMaxlength();
@@ -156,9 +156,9 @@ public class ClassField {
 	
 	public static class ClassFieldBuilder {
 		
-		public ClassField buildFrom(final Field field, final String pkClazzName, final String databaseType) {
+		public ClassField buildFrom(final Field field, final String pkClazzName) {
 			ClassField classField = new ClassField();
-			classField.updateClassField(field, pkClazzName, databaseType);
+			classField.updateClassField(field, pkClazzName);
 			return classField;
 		}
 		

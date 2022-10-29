@@ -4,7 +4,6 @@
         "serviceName": "fbm-hrcompany-service",
         "contextPath": "hrcompany",
         "schemaName": "fbmcontentdb",
-        "databaseType": "mongo",
         "basePackage": "com.service.hr"
     },
     "domains": [

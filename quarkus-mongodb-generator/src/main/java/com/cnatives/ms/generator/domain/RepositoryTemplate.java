@@ -47,13 +47,7 @@ public class RepositoryTemplate extends BaseClass {
 		this.domainClassName = domainModel.getName();
 		this.domainEntityClassName = domainModel.getName()+"Entity";
 		this.pkDatatype = metaData.getPkDataType();
-		if(metaData.getDatabaseType().equalsIgnoreCase("mongo") ||
-				metaData.getDatabaseType().equalsIgnoreCase("mongodb")) {
-			this.repositoryInterfaceName = "PanacheMongoRepository";
-		}
-		else {
-			this.repositoryInterfaceName = "PanacheRepository";
-		}
+		this.repositoryInterfaceName = "PanacheMongoRepository";
 	}
 	
 	public static RepositoryTemplateBuilder builder() {
