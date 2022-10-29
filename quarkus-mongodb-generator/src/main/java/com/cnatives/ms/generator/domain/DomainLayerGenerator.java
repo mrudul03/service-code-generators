@@ -36,8 +36,6 @@ public class DomainLayerGenerator {
 		return "";
 	}
 	
-	
-	
 	private void generateDomains(GeneratorMetaData metaData, 
 			CodeGenerationRequest request) {
 		

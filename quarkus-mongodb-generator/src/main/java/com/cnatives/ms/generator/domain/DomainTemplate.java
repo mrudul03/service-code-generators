@@ -10,6 +10,7 @@ import com.cnatives.ms.contract.DomainModelForm;
 import com.cnatives.ms.contract.DomainModelOperation;
 import com.cnatives.ms.contract.Field;
 import com.cnatives.ms.generator.base.BaseClass;
+import com.cnatives.ms.generator.base.Constants;
 import com.cnatives.ms.generator.base.GeneratorMetaData;
 
 import lombok.EqualsAndHashCode;
@@ -83,12 +84,6 @@ public class DomainTemplate extends BaseClass {
 			final GeneratorMetaData metaData) {
 		
 		this.packageName = metaData.getBasePackageName()+"."+domainModel.getParententity().toLowerCase()+"."+DOMAIN;
-//		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
-//			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-//		}
-//		else {
-//			this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-//		}
 		this.classfields = this.createClassFields(domainModel, metaData);
 		this.className = domainModel.getName();
 		this.classNameVariable = this.getClassNameVariable(domainModel.getName());
@@ -103,7 +98,6 @@ public class DomainTemplate extends BaseClass {
 		if(null != this.idField) {
 			this.idFieldType = "ObjectId";
 		}
-		//this.contractImport = "import "+metaData.getBasePackageName()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+"contract.*";
 		this.contractImport = "import "+metaData.getBasePackageName()+"."+domainModel.getParententity().toLowerCase()+"."+"contract.*";
 		this.entityName = domainModel.getName()+"Entity";
 	}
@@ -119,9 +113,13 @@ public class DomainTemplate extends BaseClass {
 	}
 	
 	private ClassField getIdField(final String pkClazzName){
-		
-		ClassField classField = ClassField.builder().createIdField(pkClazzName);
-		return classField;
+		if(this.entityType.equalsIgnoreCase(Constants.AGGREGATE)) {
+			ClassField classField = ClassField.builder().createIdField(pkClazzName);
+			return classField;
+		}
+		else {
+			return null;
+		}
 	}
 	
 	private String getClassNameVariable(String className) {
@@ -134,7 +132,6 @@ public class DomainTemplate extends BaseClass {
         else {
         	result = "model";
         }
-        //log.info("ClassNameVariable as::"+result);
         return result;
 	}
 	
@@ -148,6 +145,7 @@ public class DomainTemplate extends BaseClass {
 		}
 		return dateDeclared;
 	}
+	
 	private String getSetDeclared(List<ClassField> fields) {
 		String setDeclared = null;
 		for(ClassField classField:fields) {
@@ -158,6 +156,7 @@ public class DomainTemplate extends BaseClass {
 		}
 		return setDeclared;
 	}
+	
 	private String getListDeclared(List<ClassField> fields) {
 		String setDeclared = null;
 		for(ClassField classField:fields) {
@@ -211,7 +210,6 @@ public class DomainTemplate extends BaseClass {
 		else {
 			return null;
 		}
-		
 	}
 	
 	public static DomainTemplateBuilder builder() {
@@ -233,7 +231,4 @@ public class DomainTemplate extends BaseClass {
 			return template;
 		}
 	}
-	
-	
-	
 }

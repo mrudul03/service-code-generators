@@ -62,13 +62,6 @@ public class ControllerTemplate extends BaseClass {
 	private void updateClassDetails(GeneratorMetaData metaData, DomainModel domainModel) {
 		
 		this.packageName = metaData.getBasePackageName() +"." + domainModel.getParententity().toLowerCase()+ "."+CONTROLLER.toLowerCase();
-//		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
-//			this.packageName = metaData.getBasePackage() + "." + domainModel.getDomainName().toLowerCase()+ "."+CONTROLLER.toLowerCase();
-//		}
-//		else {
-//			this.packageName = metaData.getBasePackage() +"."+metaData.getServiceBaseName()+ "." + domainModel.getDomainName().toLowerCase()+ "."+CONTROLLER.toLowerCase();
-//		}
-		
 		this.serviceName = domainModel.getParententity() + SERVICE;
 		this.serviceVariableName = this.createVariable(this.serviceName);
 		this.className = domainModel.getName() + CONTROLLER;
@@ -104,5 +97,4 @@ public class ControllerTemplate extends BaseClass {
 			return template;
 		}
 	}
-
 }

@@ -45,7 +45,6 @@ public class PropertiesTemplate {
 		this.dbpassword = configurations.getDbpassword();
 		this.schemaName = configurations.getSchemaName();
 		this.applicationTemplate = "applicationproperties.template";
-		//this.bootstrapTemplate = "bootstrapYaml.template";
 		this.contextPath = configurations.getContextPath();
 	}
 	
@@ -63,13 +62,8 @@ public class PropertiesTemplate {
 			final String content = template.getTemplateContent(this.applicationTemplate);
 			String fileContent = jinjava.render(content, bindings);
 			this.createFile(codeGenDirPath, "application", fileContent, this.fileExtension);
-			
-			//final String bootstrapContent = template.getTemplateContent(this.bootstrapTemplate);
-			//String bootstrapFileContent = jinjava.render(bootstrapContent, bindings);
-			//this.createFile(codeGenDirPath, "bootstrap", bootstrapFileContent, this.fileExtension);
 		}
 		catch(Exception e) {
-			//e.printStackTrace();
 			log.error("BaseModel Error:", e);
 		}
 	}
@@ -82,9 +76,7 @@ public class PropertiesTemplate {
 			Files.write(path, fileContent.getBytes());
 		}
 		catch(Exception e) {
-			//e.printStackTrace();
 			log.error("BaseMode Error creating YAML file:", e);
 		}
-		
 	}
 }

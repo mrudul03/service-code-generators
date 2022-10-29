@@ -13,7 +13,6 @@ import lombok.Getter;
 public class DomainEntityMapperTemplate extends BaseClass{
 	
 	private static final String DOMAINMAPPER_TEMPLATE = "domainentitymapper.template";
-	//private static final String DOMAIN = "domain";
 	private static final String FILE_EXTENSION = ".java";
 	
 	@Getter
@@ -57,7 +56,6 @@ public class DomainEntityMapperTemplate extends BaseClass{
 			final GeneratorMetaData metaData) {
 		
 		this.templateName = DOMAINMAPPER_TEMPLATE;
-		//this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModel.getDomainName())+DOMAIN+"/";
 		this.codeGenDirPath = domainTemplate.getCodeGenDirPath();
 		this.fileExtension = FILE_EXTENSION;
 		this.bindingName = "domainentitymapper";
@@ -123,7 +121,6 @@ public class DomainEntityMapperTemplate extends BaseClass{
         else {
         	result = "model";
         }
-        //log.info("ClassNameVariable as::"+result);
         return result;
 	}
 	

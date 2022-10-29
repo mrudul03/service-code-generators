@@ -39,21 +39,13 @@ public class ContractTemplate extends BaseClass {
 		this.bindingName = CONTRACT;
 		this.fileExtension = FILE_EXTENSION;
 		if(null == this.codeGenDirPath) {
-			//this.codeGenDirPath = metaData.getCodeGenDirPath()+CONTRACT+"/";
 			this.codeGenDirPath = metaData.getServiceCodeGenDirPath(domainModelform.getParententity())+CONTRACT+"/";
 		}
 	}
 	
 	private void updateClassDetails(GeneratorMetaData metaData, DomainModelForm domainModelform) {
 		if(null == this.packageName) {
-			
 			this.packageName = metaData.getBasePackageName()+"."+domainModelform.getParententity().toLowerCase()+"."+CONTRACT;
-//			if(metaData.getServiceBaseName().equalsIgnoreCase(domainModelform.getDomainName())) {
-//				this.packageName = metaData.getBasePackage()+"."+domainModelform.getDomainName().toLowerCase()+"."+CONTRACT;
-//			}
-//			else {
-//				this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModelform.getDomainName().toLowerCase()+"."+CONTRACT;
-//			}
 		}
 		
 		this.className = domainModelform.getName();

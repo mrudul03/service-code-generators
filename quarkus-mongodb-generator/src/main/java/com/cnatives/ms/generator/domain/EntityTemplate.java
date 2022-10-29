@@ -7,6 +7,7 @@ import com.cnatives.ms.contract.DomainModel;
 import com.cnatives.ms.contract.DomainModelForm;
 import com.cnatives.ms.contract.Field;
 import com.cnatives.ms.generator.base.BaseClass;
+import com.cnatives.ms.generator.base.Constants;
 import com.cnatives.ms.generator.base.GeneratorMetaData;
 
 import lombok.EqualsAndHashCode;
@@ -69,15 +70,7 @@ public class EntityTemplate extends BaseClass {
 			final DomainModel domainModel,
 			final GeneratorMetaData metaData) {
 		
-		//this.packageName = metaData.getBasePackageName()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
 		this.packageName = metaData.getBasePackageName()+"."+domainModel.getParententity().toLowerCase()+"."+DOMAIN;
-		
-//		if(metaData.getServiceBaseName().equalsIgnoreCase(domainModel.getDomainName())) {
-//			this.packageName = metaData.getBasePackage()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-//		}
-//		else {
-//			this.packageName = metaData.getBasePackage()+"."+metaData.getServiceBaseName()+"."+domainModel.getDomainName().toLowerCase()+"."+DOMAIN;
-//		}
 		this.classfields = this.createClassFields(domainModel, metaData);
 		this.className = domainModel.getName()+"Entity";
 		this.classNameVariable = this.getClassNameVariable(domainModel.getName())+"Entity";
@@ -90,7 +83,6 @@ public class EntityTemplate extends BaseClass {
 		this.idField = this.getIdField(metaData.getPkClazzName());
 		this.idFieldName = this.getClassNameVariable(domainModel.getName())+"EntityId";
 		if(null != this.idField) {
-			//this.idFieldType = this.idField.getDatatypeClassName();
 			this.idFieldType = "ObjectId";
 		}
 		entityAnnotation = "@MongoEntity(collection=\""+domainModel.getName().toLowerCase()+"\")";
@@ -106,11 +98,14 @@ public class EntityTemplate extends BaseClass {
 		return classFields;
 	}
 	
-	private ClassField getIdField(
-			final String pkClazzName){
-		
-		ClassField classField = ClassField.builder().createIdField(pkClazzName);
-		return classField;
+	private ClassField getIdField(final String pkClazzName){
+		if(this.entityType.equalsIgnoreCase(Constants.AGGREGATE)) {
+			ClassField classField = ClassField.builder().createIdField(pkClazzName);
+			return classField;
+		}
+		else {
+			return null;
+		}
 	}
 	
 	private String getClassNameVariable(String className) {

@@ -15,9 +15,9 @@ import java.time.LocalDate;{% endif %}
 import java.util.HashSet;
 {% endif %}
 
+{% if domainentity.idField is defined %}@MongoEntity(collection="{{ domainentity.className }}"){% endif %}
 @Data
 @Slf4j
-@MongoEntity(collection="{{ domainentity.className }}")
 public class {{ domainentity.className }} {
 
 	public {{ domainentity.className }}(){}
